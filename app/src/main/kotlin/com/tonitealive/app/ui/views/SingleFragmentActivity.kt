@@ -2,16 +2,16 @@ package com.tonitealive.app.ui.views
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
 import com.tonitealive.app.R
+import com.tonitealive.app.ui.BaseActivity
 
 
-abstract class SingleFragmentActivity : FragmentActivity() {
+abstract class SingleFragmentActivity : BaseActivity() {
 
     protected abstract  fun createFragment(): Fragment
 
     protected fun getLayoutResId(): Int {
-        return R.id.fragment_container;
+        return R.layout.activity_fragment;
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

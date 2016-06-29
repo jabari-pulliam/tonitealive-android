@@ -1,6 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
+def supportLibVer = "24.0.0"
+
+kapt {
+    generateStubs true
+}
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
@@ -11,6 +17,7 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -32,27 +39,39 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile "com.android.support:support-v4:$supportLibVer"
+    compile "com.android.support:appcompat-v7:$supportLibVer"
+    compile "com.android.support:cardview-v7:$supportLibVer"
+    compile "com.android.support:support-annotations:$supportLibVer"
+    compile "com.android.support:recyclerview-v7:$supportLibVer"
+    compile "com.android.support:design:$supportLibVer"
+
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'org.roboguice:roboguice:4.0.0'
-    provided 'org.roboguice:roboblender:4.0.0'
     compile 'com.jakewharton:butterknife:8.1.0'
     kapt 'com.jakewharton:butterknife-compiler:8.1.0'
+    compile 'com.google.code.findbugs:jsr305:3.0.1'
+    compile 'com.google.dagger:dagger:2.5'
+    kapt 'com.google.dagger:dagger-compiler:2.5'
 
     testCompile 'junit:junit:4.12'
+    testCompile 'com.google.code.findbugs:jsr305:3.0.1'
+    testCompile "com.android.support:support-annotations:$supportLibVer"
     testCompile 'org.robolectric:robolectric:3.1'
     testCompile 'org.mockito:mockito-core:2.0.71-beta'
     testCompile 'org.assertj:assertj-core:3.4.1'
-//    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-//    testCompile 'com.squareup.assertj:assertj-android-support-v4:1.1.1'
+    testCompile "org.robolectric:shadows-support-v4:3.1"
+    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    testCompile 'com.squareup.assertj:assertj-android-support-v4:1.1.1@aar'
 //    testCompile 'com.squareup.assertj:assertj-android-recyclerview-v7:1.1.1'
 //    testCompile 'com.squareup.assertj:assertj-android-cardview-v7:1.1.1'
 //    testCompile 'com.squareup.assertj:assertj-android-appcompat-v7:1.1.1'
 //    testCompile 'com.squareup.assertj:assertj-android-play-services:1.1.1'
 //    testCompile 'com.squareup.assertj:assertj-android-design:1.1.1'
 
-    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile "com.android.support:support-annotations:$supportLibVer"
+    androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
 }
 repositories {
     mavenCentral()
