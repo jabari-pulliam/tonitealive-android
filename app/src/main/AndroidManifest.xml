@@ -9,6 +9,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data
+            android:name="API_BASE_URL"
+            android:value="http://tonitealive-server.herokuapp.com"/>
+
         <activity android:name=".ui.views.signin.SignInActivity" android:label="@string/sign_in">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>

@@ -1,20 +1,18 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
-def supportLibVer = "24.0.0"
-
 kapt {
     generateStubs true
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
+    buildToolsVersion rootProject.ext.androidBuildToolsVersion
 
     defaultConfig {
         applicationId "com.tonitealive.app"
-        minSdkVersion 21
-        targetSdkVersion 24
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -37,47 +35,62 @@ android {
 }
 
 dependencies {
+    def appDependencies = rootProject.ext.appDependencies
+    def appTestDependencies = rootProject.ext.appTestDependencies
+    def appAndroidTestDependencies = rootProject.ext.appAndroidTestDependencies
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':domain'), project(':data')
 
-    compile "com.android.support:support-v4:$supportLibVer"
-    compile "com.android.support:appcompat-v7:$supportLibVer"
-    compile "com.android.support:cardview-v7:$supportLibVer"
-    compile "com.android.support:support-annotations:$supportLibVer"
-    compile "com.android.support:recyclerview-v7:$supportLibVer"
-    compile "com.android.support:design:$supportLibVer"
+    compile appDependencies.kotlinStdLib
+    compile appDependencies.daggerCompiler
+    compile appDependencies.dagger
+    compile appDependencies.butterKnife
+    compile appDependencies.recyclerView
+    compile appDependencies.rxJava
+    compile appDependencies.rxAndroid
+    compile appDependencies.rxKotlin
+    compile appDependencies.javaxAnnotation
+    compile appDependencies.supportv4
+    compile appDependencies.appcompat
+    compile appDependencies.cardview
+    compile appDependencies.supportAnnotations
+    compile appDependencies.recyclerview
+    compile appDependencies.design
+    compile appDependencies.butterknife
+    compile appDependencies.butterKnifeCompiler
+    compile appDependencies.jsr305
+    compile appDependencies.retrofit
+    compile appDependencies.orhanobutLogger
+    compile appDependencies.rxbinding
+    compile appDependencies.rxBindingSupportV4
+    compile appDependencies.rxBindingAppcompat
+    compile appDependencies.rxBindingDesign
+    compile appDependencies.rxBindingRecyclerview
+    compile appDependencies.gson
+    compile appDependencies.retrofitGson
+    compile appDependencies.guava
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'com.jakewharton:butterknife:8.1.0'
-    kapt 'com.jakewharton:butterknife-compiler:8.1.0'
-    compile 'com.google.code.findbugs:jsr305:3.0.1'
-    compile 'com.google.dagger:dagger:2.5'
-    kapt 'com.google.dagger:dagger-compiler:2.5'
-    compile 'io.reactivex:rxandroid:1.2.1'
-    // Because RxAndroid releases are few and far between, it is recommended you also
-    // explicitly depend on RxJava's latest version for bug fixes and new features.
-    compile 'io.reactivex:rxjava:1.1.6'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-jackson:2.1.0'
-
-    testCompile 'junit:junit:4.12'
-    testCompile 'com.google.code.findbugs:jsr305:3.0.1'
-    testCompile "com.android.support:support-annotations:$supportLibVer"
-    testCompile 'org.robolectric:robolectric:3.1'
-    testCompile 'org.mockito:mockito-core:2.0.71-beta'
-    testCompile 'org.assertj:assertj-core:3.4.1'
-    testCompile "org.robolectric:shadows-support-v4:3.1"
-    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    testCompile 'com.squareup.assertj:assertj-android-support-v4:1.1.1@aar'
+    testCompile appTestDependencies.junit
+    testCompile appTestDependencies.guava
+    testCompile appTestDependencies.jsr305
+    testCompile appTestDependencies.supportAnnotations
+    testCompile appTestDependencies.robolectric
+    testCompile appTestDependencies.mockito
+    testCompile appTestDependencies.asertj
+    testCompile appTestDependencies.robolectricShadowsSupportV4
+    testCompile appTestDependencies.assertjAndroid
+    testCompile appTestDependencies.assertJAndroidSupportV4
 //    testCompile 'com.squareup.assertj:assertj-android-recyclerview-v7:1.1.1'
 //    testCompile 'com.squareup.assertj:assertj-android-cardview-v7:1.1.1'
 //    testCompile 'com.squareup.assertj:assertj-android-appcompat-v7:1.1.1'
 //    testCompile 'com.squareup.assertj:assertj-android-play-services:1.1.1'
 //    testCompile 'com.squareup.assertj:assertj-android-design:1.1.1'
 
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile "com.android.support:support-annotations:$supportLibVer"
-    androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
+    androidTestCompile appAndroidTestDependencies.esppresso
+    androidTestCompile appAndroidTestDependencies.testRunner
+    androidTestCompile appAndroidTestDependencies.supportAnnotations
+    androidTestCompile appAndroidTestDependencies.jsr305
 }
 repositories {
     mavenCentral()

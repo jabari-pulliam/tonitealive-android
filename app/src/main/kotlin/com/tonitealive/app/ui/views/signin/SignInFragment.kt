@@ -1,7 +1,6 @@
 package com.tonitealive.app.ui.views.signin
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +16,12 @@ import com.tonitealive.app.internal.di.ComponentHolder
 import com.tonitealive.app.internal.di.components.DaggerSignInComponent
 import com.tonitealive.app.internal.di.components.SignInComponent
 import com.tonitealive.app.internal.di.modules.SignInModule
+import com.tonitealive.app.ui.BaseFragment
 import com.tonitealive.app.ui.presenters.signin.SignInPresenter
 import javax.inject.Inject
 
 
-class SignInFragment : Fragment(), SignInView {
+class SignInFragment : BaseFragment(), SignInView {
 
     @Inject
     lateinit var presenter: SignInPresenter

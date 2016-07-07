@@ -1,7 +1,10 @@
 package com.tonitealive.app.internal.di.components
 
 import android.content.Context
-import com.tonitealive.api.AuthService
+import android.content.SharedPreferences
+import com.tonitealive.app.data.ObjectSerializer
+import com.tonitealive.app.data.TokenStore
+import com.tonitealive.app.data.net.ApiService
 import com.tonitealive.app.internal.di.modules.ApplicationModule
 import com.tonitealive.app.ui.BaseActivity
 import dagger.Component
@@ -13,5 +16,8 @@ interface ApplicationComponent {
     fun inject(baseActivity: BaseActivity)
 
     fun context(): Context
-    fun authService(): AuthService
+    fun authService(): ApiService
+    fun tokenStore(): TokenStore
+    fun sharedPreferences(): SharedPreferences
+    fun objectSerializer(): ObjectSerializer
 }

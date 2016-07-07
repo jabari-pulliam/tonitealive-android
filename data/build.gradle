@@ -1,0 +1,55 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+kapt {
+    generateStubs true
+}
+
+android {
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
+    buildToolsVersion rootProject.ext.androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+}
+
+dependencies {
+    def dataDeps = rootProject.ext.dataDependencies
+    def dataTestDeps = rootProject.ext.dataTestDependencies
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':domain')
+
+    compile dataDeps.kotlinStdLib
+    kapt dataDeps.daggerCompiler
+    compile dataDeps.dagger
+    compile dataDeps.okHttp
+    compile dataDeps.gson
+    compile dataDeps.rxJava
+    compile dataDeps.rxAndroid
+    compile dataDeps.rxKotlin
+    compile dataDeps.javaxAnnotation
+    compile dataDeps.javaxInject
+    compile dataDeps.retrofit
+    compile dataDeps.retrofitGson
+    compile dataDeps.gsonJodatime
+
+    testCompile dataTestDeps.junit
+    testCompile dataTestDeps.assertj
+}

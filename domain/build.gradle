@@ -1,0 +1,24 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    def domainDeps = rootProject.ext.domainDependencies
+    def domainTestDeps = rootProject.ext.domainTestDependencies
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile domainDeps.kotlinStdLib
+    compile domainDeps.rxJava
+    compile domainDeps.rxKotlin
+    compile domainDeps.retrofit
+    compile domainDeps.gson
+
+    testCompile domainTestDeps.junit
+    testCompile domainTestDeps.mockito
+}
+
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+    test.java.srcDirs += 'src/test/kotlin'
+    androidTest.java.srcDirs += 'src/androidTest/kotlin'
+}
+
