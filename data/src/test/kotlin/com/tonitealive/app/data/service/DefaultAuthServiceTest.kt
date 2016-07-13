@@ -5,6 +5,7 @@ import com.tonitealive.app.data.TokenStore
 import com.tonitealive.app.data.exception.InvalidCredentialsException
 import com.tonitealive.app.data.exception.NetworkConnectionException
 import com.tonitealive.app.data.net.ApiService
+import com.tonitealive.app.domain.HttpStatusCodes
 import com.tonitealive.app.domain.model.AuthToken
 import com.tonitealive.app.domain.model.User
 import okhttp3.MediaType
@@ -87,7 +88,8 @@ class DefaultAuthServiceTest {
         val username = "foo"
         val password = "bar"
         val apiObservable = observable<AuthToken> { subscriber ->
-            val response = Response.error<User>(403, ResponseBody.create(MediaType.parse("application/json"), ""))
+            val response = Response.error<User>(HttpStatusCodes.STATUS_401_UNAUTHORIZED,
+                    ResponseBody.create(MediaType.parse("application/json"), ""))
             val error = HttpException(response)
             subscriber.onError(error)
         }
@@ -99,5 +101,40 @@ class DefaultAuthServiceTest {
 
         // Then
         testSubscriber.assertError(InvalidCredentialsException::class.java)
+    }
+
+    @Test
+    fun logout_shouldRemoveTokenAndCallApi() {
+        // With
+        val apiObservable = observable<Void> { subscriber ->
+            subscriber.onNext(null)
+            subscriber.onCompleted()
+        }
+        val testSubscriber = TestSubscriber<Void>()
+
+        // When
+        Mockito.`when`(mockApiService.logout()).thenReturn(apiObservable)
+        authService.logout().subscribe(testSubscriber)
+
+        // Then
+        testSubscriber.assertNoErrors()
+        testSubscriber.assertCompleted()
+        Mockito.verify(mockTokenStore).authToken = null
+    }
+
+    @Test
+    fun logout_shouldReturnErrorIfConnectionFails() {
+        // With
+        val apiObservable = observable<Void> { subscriber ->
+            subscriber.onError(IOException())
+        }
+        val testSubscriber = TestSubscriber<Void>()
+
+        // When
+        Mockito.`when`(mockApiService.logout()).thenReturn(apiObservable)
+        authService.logout().subscribe(testSubscriber)
+
+        // Then
+        testSubscriber.assertError(NetworkConnectionException::class.java)
     }
 }

@@ -5,6 +5,7 @@ import com.tonitealive.app.data.TokenStore
 import com.tonitealive.app.data.exception.InvalidCredentialsException
 import com.tonitealive.app.data.exception.NetworkConnectionException
 import com.tonitealive.app.data.net.ApiService
+import com.tonitealive.app.domain.HttpStatusCodes
 import com.tonitealive.app.domain.model.AuthToken
 import com.tonitealive.app.domain.service.AuthService
 import retrofit2.adapter.rxjava.HttpException
@@ -33,7 +34,7 @@ class DefaultAuthService @Inject constructor(private val apiService: ApiService,
                 is IOException -> subject.onError(NetworkConnectionException("Could not connect to server", error))
                 is HttpException -> {
                     when (error.code()) {
-                        403 -> subject.onError(InvalidCredentialsException())
+                        HttpStatusCodes.STATUS_401_UNAUTHORIZED -> subject.onError(InvalidCredentialsException())
                         else -> subject.onError(error)
                     }
                 }
@@ -44,6 +45,19 @@ class DefaultAuthService @Inject constructor(private val apiService: ApiService,
     }
 
     override fun logout(): Observable<Void> {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val subject = AsyncSubject<Void>()
+        apiService.logout().subscribe({ value ->
+            // Remove the token
+            tokenStore.authToken = null
+
+            subject.onNext(value)
+            subject.onCompleted()
+        }, { error ->
+            when (error) {
+                is IOException -> subject.onError(NetworkConnectionException(error))
+                else -> subject.onError(error)
+            }
+        })
+        return subject
     }
 }
