@@ -63,6 +63,7 @@ ext {
             butterKnifeCompiler:   "com.jakewharton:butterknife-compiler:$butterKnifeVersion",
             jsr305:                "com.google.code.findbugs:jsr305:$jsr305Version",
             retrofit:              "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofitRxJava:        "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion",
             orhanobutLogger:       "com.orhanobut:logger:$orhanobutLoggerVersion",
             rxbinding:             "com.jakewharton.rxbinding:rxbinding-kotlin:$rxAndroidExtVersion",
             rxBindingSupportV4:    "com.jakewharton.rxbinding:rxbinding-support-v4-kotlin:$rxAndroidExtVersion",
@@ -123,6 +124,7 @@ ext {
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
             retrofit:           "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitRxJava:        "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion",
             retrofitGson:       "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
             gsonJodatime:          "com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:$gsonJodatimeVersion",
     ]

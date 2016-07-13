@@ -9,8 +9,8 @@ import com.fatboyindustrial.gsonjodatime.Converters
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.tonitealive.app.data.DefaultTokenStore
-import com.tonitealive.app.data.GsonObjectSerializer
-import com.tonitealive.app.data.ObjectSerializer
+import com.tonitealive.app.data.GsonJsonSerializer
+import com.tonitealive.app.data.JsonSerializer
 import com.tonitealive.app.data.TokenStore
 import com.tonitealive.app.data.net.ApiService
 import dagger.Module
@@ -47,7 +47,7 @@ open class ApplicationModule(private val application: Application) {
     @Provides
     @Singleton
     fun provideTokenStore(sharedPreferences: SharedPreferences,
-                          serializer: ObjectSerializer): TokenStore {
+                          serializer: JsonSerializer): TokenStore {
         return DefaultTokenStore(sharedPreferences, serializer)
     }
 
@@ -66,8 +66,8 @@ open class ApplicationModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun provideObjectSerializer(gson: Gson): ObjectSerializer {
-        return GsonObjectSerializer(gson)
+    fun provideObjectSerializer(gson: Gson): JsonSerializer {
+        return GsonJsonSerializer(gson)
     }
 
 }

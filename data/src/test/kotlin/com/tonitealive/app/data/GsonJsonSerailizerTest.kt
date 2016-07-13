@@ -6,14 +6,14 @@ import org.junit.Before
 import org.junit.Test
 
 
-class GsonObjectSerailizerTest {
+class GsonJsonSerailizerTest {
 
-    lateinit var serializer: GsonObjectSerializer
+    lateinit var serializer: GsonJsonSerializer
 
     @Before
     fun setup() {
         val gson = com.fatboyindustrial.gsonjodatime.Converters.registerAll(GsonBuilder())
-        serializer = GsonObjectSerializer(gson.create())
+        serializer = GsonJsonSerializer(gson.create())
     }
 
     @Test

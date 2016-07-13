@@ -5,7 +5,7 @@ import com.tonitealive.app.domain.model.AuthToken
 
 
 class DefaultTokenStore(private val sharedPreferences: SharedPreferences,
-                        private val serializer: ObjectSerializer) : TokenStore {
+                        private val serializer: JsonSerializer) : TokenStore {
 
     companion object {
         internal val PREF_AUTH_TOKEN = "authToken"

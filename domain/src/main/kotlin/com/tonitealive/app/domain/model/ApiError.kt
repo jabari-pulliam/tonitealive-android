@@ -8,4 +8,5 @@ data class ApiError (@SerializedName("timestamp") val timestamp: Long,
                      @SerializedName("error") val error: String,
                      @SerializedName("exception") val exception: String,
                      @SerializedName("message") val message: String,
-                     @SerializedName("path") val path: String)
+                     @SerializedName("path") val path: String,
+                     @SerializedName("error_code") val errorCode: Int)

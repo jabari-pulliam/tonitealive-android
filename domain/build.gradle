@@ -11,6 +11,7 @@ dependencies {
     compile domainDeps.rxKotlin
     compile domainDeps.retrofit
     compile domainDeps.gson
+    compile domainDeps.javaxInject
 
     testCompile domainTestDeps.junit
     testCompile domainTestDeps.mockito

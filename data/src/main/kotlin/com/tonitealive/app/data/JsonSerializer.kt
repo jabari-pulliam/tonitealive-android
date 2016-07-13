@@ -1,7 +1,7 @@
 package com.tonitealive.app.data
 
 
-interface ObjectSerializer {
+interface JsonSerializer {
 
     fun <T> toString(obj: T): String
 

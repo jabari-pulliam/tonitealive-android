@@ -43,7 +43,7 @@ dependencies {
     compile project(':domain'), project(':data')
 
     compile appDependencies.kotlinStdLib
-    compile appDependencies.daggerCompiler
+    kapt appDependencies.daggerCompiler
     compile appDependencies.dagger
     compile appDependencies.butterKnife
     compile appDependencies.recyclerView
@@ -58,9 +58,10 @@ dependencies {
     compile appDependencies.recyclerview
     compile appDependencies.design
     compile appDependencies.butterknife
-    compile appDependencies.butterKnifeCompiler
+    kapt appDependencies.butterKnifeCompiler
     compile appDependencies.jsr305
     compile appDependencies.retrofit
+    compile appDependencies.retrofitRxJava
     compile appDependencies.orhanobutLogger
     compile appDependencies.rxbinding
     compile appDependencies.rxBindingSupportV4

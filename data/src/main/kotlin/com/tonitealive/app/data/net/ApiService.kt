@@ -1,11 +1,8 @@
 package com.tonitealive.app.data.net
 
-import com.tonitealive.app.data.model.User
 import com.tonitealive.app.domain.model.AuthToken
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import com.tonitealive.app.domain.model.User
+import retrofit2.http.*
 import rx.Observable
 
 
@@ -20,8 +17,16 @@ interface ApiService {
     @GET("logout")
     fun logout(): Observable<Void>
 
-    @POST("v1/accounts")
-    fun createAccount(username: String, email: String, password: String): Observable<User>
+    @POST("v1/users")
+    fun createUser(username: String, email: String, password: String): Observable<User>
 
+    @GET("v1/users")
+    fun getUserByUsername(@Query("username") username: String): Observable<User>
+
+    @GET("v1/users")
+    fun getUserByEmail(@Query("email") email: String): Observable<User>
+
+    @DELETE("v1/users/{username}")
+    fun removeUser(@Path("username") username: String): Observable<Void>
 
 }

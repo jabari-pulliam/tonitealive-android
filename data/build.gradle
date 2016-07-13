@@ -47,9 +47,12 @@ dependencies {
     compile dataDeps.javaxAnnotation
     compile dataDeps.javaxInject
     compile dataDeps.retrofit
+    compile dataDeps.retrofitRxJava
     compile dataDeps.retrofitGson
     compile dataDeps.gsonJodatime
 
     testCompile dataTestDeps.junit
     testCompile dataTestDeps.assertj
+    testCompile dataTestDeps.robolectric
+    testCompile dataTestDeps.mockito
 }
