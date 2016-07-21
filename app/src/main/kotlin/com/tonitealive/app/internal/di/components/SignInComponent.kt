@@ -1,5 +1,6 @@
 package com.tonitealive.app.internal.di.components
 
+import com.tonitealive.app.domain.interactors.SignInUseCase
 import com.tonitealive.app.internal.di.annotations.PerActivity
 import com.tonitealive.app.internal.di.modules.SignInModule
 import com.tonitealive.app.ui.presenters.signin.SignInPresenter
@@ -14,4 +15,5 @@ interface SignInComponent {
 
     fun presenter(): SignInPresenter
     fun view(): SignInView
+    fun signInUseCase(): SignInUseCase
 }

@@ -16,6 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId "com.tonitealive.app.test"
     }
     buildTypes {
         release {
@@ -32,67 +33,68 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
 }
 
 dependencies {
-    def appDependencies = rootProject.ext.appDependencies
-    def appTestDependencies = rootProject.ext.appTestDependencies
-    def appAndroidTestDependencies = rootProject.ext.appAndroidTestDependencies
-
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':domain'), project(':data')
 
-    compile appDependencies.kotlinStdLib
-    kapt appDependencies.daggerCompiler
-    compile appDependencies.dagger
-    compile appDependencies.butterKnife
-    compile appDependencies.recyclerView
-    compile appDependencies.rxJava
-    compile appDependencies.rxAndroid
-    compile appDependencies.rxKotlin
-    compile appDependencies.javaxAnnotation
-    compile appDependencies.supportv4
-    compile appDependencies.appcompat
-    compile appDependencies.cardview
-    compile appDependencies.supportAnnotations
-    compile appDependencies.recyclerview
-    compile appDependencies.design
-    compile appDependencies.butterknife
-    kapt appDependencies.butterKnifeCompiler
-    compile appDependencies.jsr305
-    compile appDependencies.retrofit
-    compile appDependencies.retrofitRxJava
-    compile appDependencies.orhanobutLogger
-    compile appDependencies.rxbinding
-    compile appDependencies.rxBindingSupportV4
-    compile appDependencies.rxBindingAppcompat
-    compile appDependencies.rxBindingDesign
-    compile appDependencies.rxBindingRecyclerview
-    compile appDependencies.gson
-    compile appDependencies.retrofitGson
-    compile appDependencies.guava
+    compile "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.kotlinVersion}"
+    kapt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
+    compile "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
+    compile "com.jakewharton:butterknife:${rootProject.ext.butterKnifeVersion}"
+    compile "com.android.support:recyclerview-v7:${rootProject.ext.recyclerViewVersion}"
+    compile "io.reactivex:rxjava:${rootProject.ext.rxJavaVersion}"
+    compile "io.reactivex:rxandroid:${rootProject.ext.rxAndroidVersion}"
+    compile "io.reactivex:rxkotlin:${rootProject.ext.rxKotlinVersion}"
+    compile "javax.annotation:jsr250-api:${rootProject.ext.javaxAnnotationVersion}"
+    compile "com.android.support:support-v4:$rootProject.ext.androidSupportLibVersion"
+    compile "com.android.support:appcompat-v7:$rootProject.ext.androidSupportLibVersion"
+    compile "com.android.support:cardview-v7:$rootProject.ext.androidSupportLibVersion"
+    compile "com.android.support:support-annotations:$rootProject.ext.androidSupportLibVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.ext.androidSupportLibVersion"
+    compile "com.android.support:design:$rootProject.ext.androidSupportLibVersion"
+    compile "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
+    kapt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeVersion"
+    compile "com.google.code.findbugs:jsr305:$rootProject.ext.jsr305Version"
+    compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
+    compile "com.orhanobut:logger:$rootProject.ext.orhanobutLoggerVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-kotlin:$rootProject.ext.rxAndroidExtVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-support-v4-kotlin:$rootProject.ext.rxAndroidExtVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-appcompat-v7-kotlin:$rootProject.ext.rxAndroidExtVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-design-kotlin:$rootProject.ext.rxAndroidExtVersion"
+    compile "com.jakewharton.rxbinding:rxbinding-recyclerview-v7-kotlin:$rootProject.ext.rxAndroidExtVersion"
+    compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
+    kapt "com.google.guava:guava:$rootProject.ext.guavaVersion"
 
-    testCompile appTestDependencies.junit
-    testCompile appTestDependencies.guava
-    testCompile appTestDependencies.jsr305
-    testCompile appTestDependencies.supportAnnotations
-    testCompile appTestDependencies.robolectric
-    testCompile appTestDependencies.mockito
-    testCompile appTestDependencies.asertj
-    testCompile appTestDependencies.robolectricShadowsSupportV4
-    testCompile appTestDependencies.assertjAndroid
-    testCompile appTestDependencies.assertJAndroidSupportV4
-//    testCompile 'com.squareup.assertj:assertj-android-recyclerview-v7:1.1.1'
-//    testCompile 'com.squareup.assertj:assertj-android-cardview-v7:1.1.1'
-//    testCompile 'com.squareup.assertj:assertj-android-appcompat-v7:1.1.1'
-//    testCompile 'com.squareup.assertj:assertj-android-play-services:1.1.1'
-//    testCompile 'com.squareup.assertj:assertj-android-design:1.1.1'
+    testCompile "junit:junit:$rootProject.ext.jUnitVersion"
+    testCompile "com.google.code.findbugs:jsr305:$rootProject.ext.jsr305Version"
+    testCompile "com.android.support:support-annotations:$rootProject.ext.androidSupportLibVersion"
+    testCompile "org.robolectric:robolectric:$rootProject.ext.robolectricVersion"
+    testCompile "org.mockito:mockito-core:$rootProject.ext.mockitoVersion"
+    testCompile "org.assertj:assertj-core:$rootProject.ext.assertJVersion"
+    testCompile "org.robolectric:shadows-support-v4:$rootProject.ext.robolectricVersion"
+    testCompile "com.squareup.assertj:assertj-android:$rootProject.ext.assertJAndroidVersion"
+    testCompile "com.squareup.assertj:assertj-android-support-v4:$rootProject.ext.assertJAndroidVersion@aar"
+    testCompile "com.google.guava:guava:$rootProject.ext.guavaVersion"
 
-    androidTestCompile appAndroidTestDependencies.esppresso
-    androidTestCompile appAndroidTestDependencies.testRunner
-    androidTestCompile appAndroidTestDependencies.supportAnnotations
-    androidTestCompile appAndroidTestDependencies.jsr305
+    androidTestCompile "com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
+    androidTestCompile "com.android.support.test:runner:$rootProject.ext.testRunnerVersion"
+    androidTestCompile "com.android.support.test:rules:$rootProject.ext.testRulesVersion"
+    androidTestCompile "com.android.support:support-annotations:$rootProject.ext.androidSupportLibVersion"
+    androidTestCompile "com.google.code.findbugs:jsr305:$rootProject.ext.jsr305Version"
+    androidTestCompile "org.hamcrest:hamcrest-library:$rootProject.ext.hamcrestVersion"
+    androidTestCompile "com.android.support.test.uiautomator:uiautomator-v18:$rootProject.ext.uiAutomatorVersion"
+    androidTestCompile "org.assertj:assertj-core:$rootProject.ext.assertJVersion"
 }
+
 repositories {
     mavenCentral()
 }

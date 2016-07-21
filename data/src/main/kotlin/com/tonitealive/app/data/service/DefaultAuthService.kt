@@ -1,6 +1,5 @@
 package com.tonitealive.app.data.service
 
-import com.tonitealive.app.data.JsonSerializer
 import com.tonitealive.app.data.TokenStore
 import com.tonitealive.app.data.exception.InvalidCredentialsException
 import com.tonitealive.app.data.exception.NetworkConnectionException
@@ -17,8 +16,7 @@ import javax.inject.Singleton
 
 @Singleton
 class DefaultAuthService @Inject constructor(private val apiService: ApiService,
-                                             private val tokenStore: TokenStore,
-                                             private val jsonSerializer: JsonSerializer) : AuthService {
+                                             private val tokenStore: TokenStore) : AuthService {
 
     override fun login(username: String, password: String): Observable<AuthToken> {
         val subject = AsyncSubject<AuthToken>()

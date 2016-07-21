@@ -1,20 +1,20 @@
 apply plugin: 'kotlin'
 
 dependencies {
-    def domainDeps = rootProject.ext.domainDependencies
-    def domainTestDeps = rootProject.ext.domainTestDependencies
-
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile domainDeps.kotlinStdLib
-    compile domainDeps.rxJava
-    compile domainDeps.rxKotlin
-    compile domainDeps.retrofit
-    compile domainDeps.gson
-    compile domainDeps.javaxInject
+    compile "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.kotlinVersion}"
+    compile "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
+    compile "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
+    compile "javax.annotation:jsr250-api:${rootProject.ext.javaxAnnotationVersion}"
+    compile "javax.inject:javax.inject:${rootProject.ext.javaxInjectVersion}"
+    compile "io.reactivex:rxjava:${rootProject.ext.rxJavaVersion}"
+    compile "io.reactivex:rxkotlin:${rootProject.ext.rxKotlinVersion}"
+    compile "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
+    compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
 
-    testCompile domainTestDeps.junit
-    testCompile domainTestDeps.mockito
+    testCompile "junit:junit:${rootProject.ext.jUnitVersion}"
+    testCompile "org.mockito:mockito-core:${rootProject.ext.mockitoVersion}"
 }
 
 sourceSets {

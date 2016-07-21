@@ -1,6 +1,5 @@
 package com.tonitealive.app.data.service
 
-import com.tonitealive.app.data.JsonSerializer
 import com.tonitealive.app.data.TokenStore
 import com.tonitealive.app.data.exception.InvalidCredentialsException
 import com.tonitealive.app.data.exception.NetworkConnectionException
@@ -28,7 +27,6 @@ class DefaultAuthServiceTest {
     @get:Rule
     val mockitoRule = MockitoJUnit.rule()
 
-    @Mock lateinit var mockJsonSerializer: JsonSerializer
     @Mock lateinit var mockApiService: ApiService
     @Mock lateinit var mockTokenStore: TokenStore
 
@@ -36,7 +34,7 @@ class DefaultAuthServiceTest {
 
     @Before
     fun setup() {
-        authService = DefaultAuthService(mockApiService, mockTokenStore, mockJsonSerializer)
+        authService = DefaultAuthService(mockApiService, mockTokenStore)
     }
 
     @Test

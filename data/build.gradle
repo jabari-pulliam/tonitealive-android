@@ -30,29 +30,27 @@ android {
 }
 
 dependencies {
-    def dataDeps = rootProject.ext.dataDependencies
-    def dataTestDeps = rootProject.ext.dataTestDependencies
-
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':domain')
 
-    compile dataDeps.kotlinStdLib
-    kapt dataDeps.daggerCompiler
-    compile dataDeps.dagger
-    compile dataDeps.okHttp
-    compile dataDeps.gson
-    compile dataDeps.rxJava
-    compile dataDeps.rxAndroid
-    compile dataDeps.rxKotlin
-    compile dataDeps.javaxAnnotation
-    compile dataDeps.javaxInject
-    compile dataDeps.retrofit
-    compile dataDeps.retrofitRxJava
-    compile dataDeps.retrofitGson
-    compile dataDeps.gsonJodatime
+    compile "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.kotlinVersion}"
+    kapt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
+    compile "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
+    compile "com.squareup.okhttp:okhttp:${rootProject.ext.okHttpVersion}"
+    compile "com.google.code.gson:gson:${rootProject.ext.gsonVersion}"
+    compile "io.reactivex:rxjava:${rootProject.ext.rxJavaVersion}"
+    compile "io.reactivex:rxandroid:${rootProject.ext.rxAndroidVersion}"
+    compile "io.reactivex:rxkotlin:${rootProject.ext.rxKotlinVersion}"
+    compile "javax.annotation:jsr250-api:${rootProject.ext.javaxAnnotationVersion}"
+    compile "javax.inject:javax.inject:${rootProject.ext.javaxInjectVersion}"
+    compile "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
+    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVersion}"
+    compile "com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:$rootProject.ext.gsonJodatimeVersion"
+    compile "com.google.guava:guava:$rootProject.ext.guavaVersion"
 
-    testCompile dataTestDeps.junit
-    testCompile dataTestDeps.assertj
-    testCompile dataTestDeps.robolectric
-    testCompile dataTestDeps.mockito
+    testCompile "junit:junit:${rootProject.ext.jUnitVersion}"
+    testCompile "org.assertj:assertj-core:${rootProject.ext.assertJVersion}"
+    testCompile "org.mockito:mockito-core:${rootProject.ext.mockitoVersion}"
+    testCompile "org.robolectric:robolectric:${rootProject.ext.robolectricVersion}"
 }

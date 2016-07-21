@@ -5,6 +5,10 @@ import android.content.SharedPreferences
 import com.tonitealive.app.data.JsonSerializer
 import com.tonitealive.app.data.TokenStore
 import com.tonitealive.app.data.net.ApiService
+import com.tonitealive.app.domain.executor.PostExecutionThread
+import com.tonitealive.app.domain.executor.ThreadExecutor
+import com.tonitealive.app.domain.repositories.UsersRepository
+import com.tonitealive.app.domain.service.AuthService
 import com.tonitealive.app.internal.di.modules.ApplicationModule
 import com.tonitealive.app.ui.BaseActivity
 import dagger.Component
@@ -16,8 +20,12 @@ interface ApplicationComponent {
     fun inject(baseActivity: BaseActivity)
 
     fun context(): Context
-    fun authService(): ApiService
+    fun threadExecutor(): ThreadExecutor
+    fun postExecutionThread(): PostExecutionThread
+    fun apiService(): ApiService
     fun tokenStore(): TokenStore
     fun sharedPreferences(): SharedPreferences
-    fun objectSerializer(): JsonSerializer
+    fun jsonSerializer(): JsonSerializer
+    fun usersRepository(): UsersRepository
+    fun authService(): AuthService
 }

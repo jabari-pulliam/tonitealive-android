@@ -7,4 +7,5 @@ interface SignInView {
 
     fun showProgressBar()
     fun hideProgressBar()
+    fun showMessage(message: String)
 }

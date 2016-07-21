@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -100,6 +101,11 @@ class SignInFragment : BaseFragment(), SignInView {
 
     override fun hideProgressBar() {
         progressBar.visibility = View.GONE
+    }
+
+    override fun showMessage(message: String) {
+        val toast = Toast.makeText(activity, message, Toast.LENGTH_SHORT)
+        toast.show()
     }
 
     private fun initInjector() {

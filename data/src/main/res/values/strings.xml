@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Tonite Alive Data Layer</string>
+    <string name="app_name">Tonite Alive</string>
+
+    <string name="signin_succeeded">Sign in succeeded</string>
 </resources>
