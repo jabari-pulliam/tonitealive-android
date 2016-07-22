@@ -39,7 +39,8 @@ ext {
     logbackAndroidVersion = '1.1.1-5'
 
     //Testing
-    robolectricVersion = '3.1'
+    robolectricVersion = '3.1.1'
+    robolectricMultidexVersion = '3.1'
     jUnitVersion = '4.12'
     assertJVersion = '3.4.1'
     assertJAndroidVersion = '1.1.1'

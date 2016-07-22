@@ -11,6 +11,7 @@ import com.tonitealive.app.internal.di.components.DaggerApplicationComponent
 import com.tonitealive.app.internal.di.components.DaggerSignInComponent
 import com.tonitealive.app.internal.di.modules.ApplicationModule
 import com.tonitealive.app.internal.di.modules.SignInModule
+import com.tonitealive.app.ui.Navigator
 import com.tonitealive.app.ui.presenters.signin.SignInPresenter
 import org.assertj.android.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThat
@@ -132,7 +133,7 @@ class SignInFragmentTest {
     }
 
     inner class TestSignInModule(view: SignInView) : SignInModule(view) {
-        override fun providePresenter(signInUseCase: SignInUseCase): SignInPresenter {
+        override fun providePresenter(signInUseCase: SignInUseCase, navigator: Navigator): SignInPresenter {
             return mockPresenter
         }
     }

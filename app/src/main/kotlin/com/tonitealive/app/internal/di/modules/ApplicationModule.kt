@@ -16,6 +16,8 @@ import com.tonitealive.app.domain.executor.PostExecutionThread
 import com.tonitealive.app.domain.executor.ThreadExecutor
 import com.tonitealive.app.domain.repositories.UsersRepository
 import com.tonitealive.app.domain.service.AuthService
+import com.tonitealive.app.ui.DefaultNavigator
+import com.tonitealive.app.ui.Navigator
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -24,6 +26,12 @@ import javax.inject.Singleton
 
 @Module
 open class ApplicationModule(private val application: Application) {
+
+    @Provides
+    @Singleton
+    open fun provideNavigator(): Navigator {
+        return DefaultNavigator(application.applicationContext)
+    }
 
     @Provides
     @Singleton

@@ -5,6 +5,7 @@ import com.tonitealive.app.domain.executor.ThreadExecutor
 import com.tonitealive.app.domain.interactors.SignInUseCase
 import com.tonitealive.app.domain.service.AuthService
 import com.tonitealive.app.internal.di.annotations.PerActivity
+import com.tonitealive.app.ui.Navigator
 import com.tonitealive.app.ui.presenters.signin.DefaultSignInPresenter
 import com.tonitealive.app.ui.presenters.signin.SignInPresenter
 import com.tonitealive.app.ui.views.signin.SignInView
@@ -22,8 +23,8 @@ open class SignInModule(private val signInView: SignInView) {
 
     @Provides
     @PerActivity
-    open fun providePresenter(signInUseCase: SignInUseCase): SignInPresenter {
-        return DefaultSignInPresenter(signInView, signInUseCase)
+    open fun providePresenter(signInUseCase: SignInUseCase, navigator: Navigator): SignInPresenter {
+        return DefaultSignInPresenter(signInView, signInUseCase, navigator)
     }
 
     @Provides

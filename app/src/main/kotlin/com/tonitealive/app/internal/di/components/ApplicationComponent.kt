@@ -10,6 +10,7 @@ import com.tonitealive.app.domain.executor.ThreadExecutor
 import com.tonitealive.app.domain.repositories.UsersRepository
 import com.tonitealive.app.domain.service.AuthService
 import com.tonitealive.app.internal.di.modules.ApplicationModule
+import com.tonitealive.app.ui.Navigator
 import com.tonitealive.app.ui.views.BaseActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -20,6 +21,7 @@ interface ApplicationComponent {
     fun inject(baseActivity: BaseActivity)
 
     fun context(): Context
+    fun navigator(): Navigator
     fun threadExecutor(): ThreadExecutor
     fun postExecutionThread(): PostExecutionThread
     fun apiService(): ApiService

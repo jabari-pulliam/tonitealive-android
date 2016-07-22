@@ -70,7 +70,6 @@ dependencies {
     compile "com.android.support:design:$rootProject.ext.androidSupportLibVersion"
     compile "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
     kapt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeVersion"
-    //compile "com.google.code.findbugs:jsr305:$rootProject.ext.jsr305Version"
     compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
     compile "com.jakewharton.rxbinding:rxbinding-kotlin:$rootProject.ext.rxAndroidExtVersion"
@@ -88,7 +87,7 @@ dependencies {
     testCompile "com.google.code.findbugs:jsr305:$rootProject.ext.jsr305Version"
     testCompile "com.android.support:support-annotations:$rootProject.ext.androidSupportLibVersion"
     testCompile "org.robolectric:robolectric:$rootProject.ext.robolectricVersion"
-    testCompile "org.robolectric:shadows-multidex:$rootProject.ext.robolectricVersion"
+    testCompile "org.robolectric:shadows-multidex:$rootProject.ext.robolectricMultidexVersion"
     testCompile "org.mockito:mockito-core:$rootProject.ext.mockitoVersion"
     testCompile "org.assertj:assertj-core:$rootProject.ext.assertJVersion"
     testCompile "org.robolectric:shadows-support-v4:$rootProject.ext.robolectricVersion"
@@ -111,4 +110,5 @@ dependencies {
 
 repositories {
     mavenCentral()
+    jcenter()
 }
