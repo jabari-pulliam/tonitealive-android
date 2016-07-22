@@ -27,13 +27,13 @@ open class ApplicationModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun provideApplicationContext(): Context {
+    open fun provideApplicationContext(): Context {
         return application
     }
 
     @Provides
     @Singleton
-    fun provideApiService(): ApiService {
+    open fun provideApiService(): ApiService {
         val info = application.packageManager.getApplicationInfo(application.packageName,
                 PackageManager.GET_META_DATA)
         val apiBaseUrl = info.metaData.getString("API_BASE_URL")
@@ -49,51 +49,51 @@ open class ApplicationModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun provideTokenStore(sharedPreferences: SharedPreferences,
+    open fun provideTokenStore(sharedPreferences: SharedPreferences,
                           serializer: JsonSerializer): TokenStore {
         return DefaultTokenStore(sharedPreferences, serializer)
     }
 
     @Provides
     @Singleton
-    fun provideSharedPreferences(): SharedPreferences {
+    open fun provideSharedPreferences(): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(application)
     }
 
     @Provides
     @Singleton
-    fun provideGson(): Gson {
+    open fun provideGson(): Gson {
         val gsonBuilder = Converters.registerAll(GsonBuilder())
         return gsonBuilder.create()
     }
 
     @Provides
     @Singleton
-    fun provideJsonSerializer(gson: Gson): JsonSerializer {
+    open fun provideJsonSerializer(gson: Gson): JsonSerializer {
         return GsonJsonSerializer(gson)
     }
 
     @Provides
     @Singleton
-    fun provideAuthService(apiService: ApiService, tokenStore: TokenStore): AuthService {
+    open fun provideAuthService(apiService: ApiService, tokenStore: TokenStore): AuthService {
         return DefaultAuthService(apiService, tokenStore)
     }
 
     @Provides
     @Singleton
-    fun provideThreadExecutor(): ThreadExecutor {
+    open fun provideThreadExecutor(): ThreadExecutor {
         return JobExecutor()
     }
 
     @Provides
     @Singleton
-    fun providePostExecutionThread(): PostExecutionThread {
+    open fun providePostExecutionThread(): PostExecutionThread {
         return UiThread()
     }
 
     @Provides
     @Singleton
-    fun provideUsersRepository(apiService: ApiService, jsonSerializer: JsonSerializer): UsersRepository {
+    open fun provideUsersRepository(apiService: ApiService, jsonSerializer: JsonSerializer): UsersRepository {
         return DefaultUsersRepository(apiService, jsonSerializer)
     }
 }

@@ -34,7 +34,9 @@ dependencies {
     compile project(':domain')
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.kotlinVersion}"
-    kapt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
+    kapt ("com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}") {
+        exclude module: 'jsr305'
+    }
     compile "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
     compile "com.squareup.okhttp:okhttp:${rootProject.ext.okHttpVersion}"
     compile "com.google.code.gson:gson:${rootProject.ext.gsonVersion}"
@@ -48,6 +50,8 @@ dependencies {
     compile "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVersion}"
     compile "com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:$rootProject.ext.gsonJodatimeVersion"
     compile "com.google.guava:guava:$rootProject.ext.guavaVersion"
+    compile "com.github.tony19:logback-android-core:$rootProject.ext.logbackAndroidVersion"
+    compile "org.slf4j:slf4j-api:$rootProject.ext.slf4jApiVersion"
 
     testCompile "junit:junit:${rootProject.ext.jUnitVersion}"
     testCompile "org.assertj:assertj-core:${rootProject.ext.assertJVersion}"

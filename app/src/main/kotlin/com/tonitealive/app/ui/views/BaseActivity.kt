@@ -1,4 +1,4 @@
-package com.tonitealive.app.ui
+package com.tonitealive.app.ui.views
 
 import android.os.Bundle
 import android.os.PersistableBundle

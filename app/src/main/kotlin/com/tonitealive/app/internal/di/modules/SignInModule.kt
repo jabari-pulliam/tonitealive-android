@@ -16,19 +16,19 @@ open class SignInModule(private val signInView: SignInView) {
 
     @Provides
     @PerActivity
-    fun provideView(): SignInView {
+    open fun provideView(): SignInView {
         return signInView
     }
 
     @Provides
     @PerActivity
-    fun providePresenter(signInUseCase: SignInUseCase): SignInPresenter {
+    open fun providePresenter(signInUseCase: SignInUseCase): SignInPresenter {
         return DefaultSignInPresenter(signInView, signInUseCase)
     }
 
     @Provides
     @PerActivity
-    fun provideSignInUseCase(threadExecutor: ThreadExecutor,
+    open fun provideSignInUseCase(threadExecutor: ThreadExecutor,
                              postExecutionThread: PostExecutionThread,
                              authService: AuthService): SignInUseCase {
         return SignInUseCase(threadExecutor, postExecutionThread, authService)

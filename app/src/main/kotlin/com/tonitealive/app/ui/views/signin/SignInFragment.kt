@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
-import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -17,33 +16,21 @@ import com.tonitealive.app.internal.di.ComponentHolder
 import com.tonitealive.app.internal.di.components.DaggerSignInComponent
 import com.tonitealive.app.internal.di.components.SignInComponent
 import com.tonitealive.app.internal.di.modules.SignInModule
-import com.tonitealive.app.ui.BaseFragment
 import com.tonitealive.app.ui.presenters.signin.SignInPresenter
+import com.tonitealive.app.ui.views.BaseFragment
 import javax.inject.Inject
 
 
 class SignInFragment : BaseFragment(), SignInView {
 
-    @Inject
-    lateinit var presenter: SignInPresenter
+    @Inject lateinit var presenter: SignInPresenter
 
-    @BindView(R.id.username_field)
-    lateinit var usernameField: EditText
-
-    @BindView(R.id.password_field)
-    lateinit var passwordField: EditText
-
-    @BindView(R.id.sign_in_button)
-    lateinit var signInButton: Button
-
-    @BindView(R.id.sign_up_button)
-    lateinit var signUpButton: Button
-
-    @BindView(R.id.forgot_password_button)
-    lateinit var forgotPasswordButton: Button
-
-    @BindView(R.id.progress_bar)
-    lateinit var progressBar: ProgressBar
+    @BindView(R.id.usernameField) lateinit var usernameField: EditText
+    @BindView(R.id.password_field) lateinit var passwordField: EditText
+    @BindView(R.id.sign_in_button) lateinit var signInButton: Button
+    @BindView(R.id.sign_up_button) lateinit var signUpButton: Button
+    @BindView(R.id.forgot_password_button) lateinit var forgotPasswordButton: Button
+    @BindView(R.id.progress_bar) lateinit var progressBar: ProgressBar
 
     var component by ComponentHolder<SignInComponent>({
         val myApplication = activity.application as ToniteAliveApplication
@@ -69,13 +56,12 @@ class SignInFragment : BaseFragment(), SignInView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initInjector()
+        component.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_sign_in, container, false)
-        if (view != null)
-            ButterKnife.bind(this, view)
+        ButterKnife.bind(this, view!!)
         return view
     }
 
@@ -101,15 +87,6 @@ class SignInFragment : BaseFragment(), SignInView {
 
     override fun hideProgressBar() {
         progressBar.visibility = View.GONE
-    }
-
-    override fun showMessage(message: String) {
-        val toast = Toast.makeText(activity, message, Toast.LENGTH_SHORT)
-        toast.show()
-    }
-
-    private fun initInjector() {
-        component.inject(this)
     }
 
 }

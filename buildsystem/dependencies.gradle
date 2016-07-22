@@ -15,12 +15,14 @@ ext {
     androidMinSdkVersion = 18
     androidTargetSdkVersion = 24
     androidCompileSdkVersion = 24
+    androidMultidexVersion = '1.0.0'
 
     //Libraries
     daggerVersion = '2.5'
     butterKnifeVersion = '8.1.0'
     recyclerViewVersion = '21.0.3'
     rxJavaVersion = '1.1.6'
+    rxJavaExtVersion = '0.22.0'
     rxAndroidVersion = '1.2.1'
     rxAndroidExtVersion = '0.4.0'
     rxKotlinVersion = '0.60.0'
@@ -33,6 +35,8 @@ ext {
     jsr305Version = '3.0.1'
     orhanobutLoggerVersion = '1.15'
     guavaVersion = '19.0'
+    slf4jApiVersion = '1.7.21'
+    logbackAndroidVersion = '1.1.1-5'
 
     //Testing
     robolectricVersion = '3.1'
@@ -45,4 +49,5 @@ ext {
     testRulesVersion = '0.5'
     hamcrestVersion = '1.3'
     uiAutomatorVersion = '2.1.2'
+    multidexTestRunnerVersion = '1.0.1'
 }

@@ -1,12 +1,12 @@
 package com.tonitealive.app
 
-import android.app.Application
+import android.support.multidex.MultiDexApplication
 import com.tonitealive.app.internal.di.components.ApplicationComponent
 import com.tonitealive.app.internal.di.components.DaggerApplicationComponent
 import com.tonitealive.app.internal.di.modules.ApplicationModule
 
 
-class ToniteAliveApplication : Application() {
+class ToniteAliveApplication : MultiDexApplication() {
 
     lateinit var applicationComponent: ApplicationComponent
         private set

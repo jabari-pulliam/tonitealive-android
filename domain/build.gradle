@@ -12,6 +12,8 @@ dependencies {
     compile "io.reactivex:rxkotlin:${rootProject.ext.rxKotlinVersion}"
     compile "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
     compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+    compile "org.slf4j:slf4j-api:$rootProject.ext.slf4jApiVersion"
+    compile "io.reactivex:rxjava-joins:${rootProject.ext.rxJavaExtVersion}"
 
     testCompile "junit:junit:${rootProject.ext.jUnitVersion}"
     testCompile "org.mockito:mockito-core:${rootProject.ext.mockitoVersion}"

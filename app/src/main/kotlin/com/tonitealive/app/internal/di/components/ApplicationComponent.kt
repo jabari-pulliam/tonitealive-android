@@ -10,7 +10,7 @@ import com.tonitealive.app.domain.executor.ThreadExecutor
 import com.tonitealive.app.domain.repositories.UsersRepository
 import com.tonitealive.app.domain.service.AuthService
 import com.tonitealive.app.internal.di.modules.ApplicationModule
-import com.tonitealive.app.ui.BaseActivity
+import com.tonitealive.app.ui.views.BaseActivity
 import dagger.Component
 import javax.inject.Singleton
 

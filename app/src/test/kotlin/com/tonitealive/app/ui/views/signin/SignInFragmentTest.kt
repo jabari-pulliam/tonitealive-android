@@ -1,9 +1,19 @@
 package com.tonitealive.app.ui.views.signin
 
+import android.app.Application
 import com.tonitealive.app.BuildConfig
 import com.tonitealive.app.SDK_VERSION
+import com.tonitealive.app.data.TokenStore
+import com.tonitealive.app.data.net.ApiService
+import com.tonitealive.app.domain.interactors.SignInUseCase
+import com.tonitealive.app.domain.service.AuthService
+import com.tonitealive.app.internal.di.components.DaggerApplicationComponent
+import com.tonitealive.app.internal.di.components.DaggerSignInComponent
+import com.tonitealive.app.internal.di.modules.ApplicationModule
+import com.tonitealive.app.internal.di.modules.SignInModule
 import com.tonitealive.app.ui.presenters.signin.SignInPresenter
 import org.assertj.android.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -15,7 +25,9 @@ import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricGradleTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowToast
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil
 
 @RunWith(RobolectricGradleTestRunner::class)
@@ -27,15 +39,23 @@ class SignInFragmentTest {
 
     lateinit var fragment: SignInFragment
 
-    @Mock
-    lateinit var mockPresenter: SignInPresenter
+    @Mock lateinit var mockPresenter: SignInPresenter
+    @Mock lateinit var mockApiService: ApiService
+    @Mock lateinit var mockAuthService: AuthService
+    @Mock lateinit var mockTokenStore: TokenStore
 
     @Before
     fun setup() {
+        val appComponent = DaggerApplicationComponent.builder()
+            .applicationModule(TestApplicationModule(RuntimeEnvironment.application))
+            .build()
         fragment = SignInFragment.newInstance()
-        //fragment.component = buildComponent()
+        val component = DaggerSignInComponent.builder()
+                .applicationComponent(appComponent)
+                .signInModule(TestSignInModule(fragment))
+                .build()
+        fragment.component = component
         SupportFragmentTestUtil.startFragment(fragment)
-        fragment.presenter = mockPresenter
     }
 
     @After
@@ -87,6 +107,34 @@ class SignInFragmentTest {
 
         // Then
         assertThat(fragment.progressBar).isNotVisible
+    }
+
+    @Test
+    fun showMessage_shouldShowToast() {
+        // With
+        val message = "hello"
+
+        // When
+        fragment.showMessage(message)
+
+        // Then
+        assertThat(ShadowToast.showedToast(message)).isTrue()
+    }
+
+    inner class TestApplicationModule(application: Application) : ApplicationModule(application) {
+        override fun provideAuthService(apiService: ApiService, tokenStore: TokenStore): AuthService {
+            return mockAuthService
+        }
+
+        override fun provideApiService(): ApiService {
+            return mockApiService
+        }
+    }
+
+    inner class TestSignInModule(view: SignInView) : SignInModule(view) {
+        override fun providePresenter(signInUseCase: SignInUseCase): SignInPresenter {
+            return mockPresenter
+        }
     }
 
 }
