@@ -5,13 +5,15 @@ kapt {
     generateStubs true
 }
 
+def ver = rootProject.ext.ver
+
 android {
-    compileSdkVersion rootProject.ext.androidCompileSdkVersion
-    buildToolsVersion rootProject.ext.androidBuildToolsVersion
+    compileSdkVersion ver.androidCompileSdk
+    buildToolsVersion ver.androidBuildTools
 
     defaultConfig {
-        minSdkVersion rootProject.ext.androidMinSdkVersion
-        targetSdkVersion rootProject.ext.androidTargetSdkVersion
+        minSdkVersion ver.androidMinSdk
+        targetSdkVersion ver.androidTargetSdk
         versionCode 1
         versionName "1.0"
     }
@@ -33,28 +35,39 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':domain')
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.kotlinVersion}"
-    kapt ("com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}") {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:${ver.kotlin}"
+    kapt ("com.google.dagger:dagger-compiler:${ver.dagger}") {
         exclude module: 'jsr305'
     }
-    compile "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
-    compile "com.squareup.okhttp:okhttp:${rootProject.ext.okHttpVersion}"
-    compile "com.google.code.gson:gson:${rootProject.ext.gsonVersion}"
-    compile "io.reactivex:rxjava:${rootProject.ext.rxJavaVersion}"
-    compile "io.reactivex:rxandroid:${rootProject.ext.rxAndroidVersion}"
-    compile "io.reactivex:rxkotlin:${rootProject.ext.rxKotlinVersion}"
-    compile "javax.annotation:jsr250-api:${rootProject.ext.javaxAnnotationVersion}"
-    compile "javax.inject:javax.inject:${rootProject.ext.javaxInjectVersion}"
-    compile "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
-    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
-    compile "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVersion}"
-    compile "com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:$rootProject.ext.gsonJodatimeVersion"
-    compile "com.google.guava:guava:$rootProject.ext.guavaVersion"
-    compile "com.github.tony19:logback-android-core:$rootProject.ext.logbackAndroidVersion"
-    compile "org.slf4j:slf4j-api:$rootProject.ext.slf4jApiVersion"
+    compile "com.google.dagger:dagger:${ver.dagger}"
+    compile "com.google.code.gson:gson:${ver.gson}"
+    compile "io.reactivex:rxjava:${ver.rxJava}"
+    compile "io.reactivex:rxandroid:${ver.rxAndroid}"
+    compile "io.reactivex:rxkotlin:${ver.rxKotlin}"
+    compile "javax.annotation:jsr250-api:${ver.javaxAnnotation}"
+    compile "javax.inject:javax.inject:${ver.javaxInject}"
+    compile ("com.squareup.retrofit2:retrofit:${ver.retrofit}") {
+        exclude module: 'okhttp'
+    }
+    compile ("com.squareup.retrofit2:adapter-rxjava:$ver.retrofit") {
+        exclude module: 'okhttp'
+    }
+    compile ("com.squareup.retrofit2:converter-gson:${ver.retrofit}") {
+        exclude module: 'okhttp'
+    }
+    compile "com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:$ver.gsonJodatime"
+    compile ("com.google.guava:guava:$ver.guava") {
+        force = true
+    }
+    kapt "com.google.guava:guava:$ver.guava"
+    compile "com.github.tony19:logback-android-core:$ver.logbackAndroid"
+    compile "com.github.tony19:logback-android-classic:$ver.logbackAndroid"
+    compile "org.slf4j:slf4j-api:$ver.slf4jApi"
+    compile "com.squareup.okhttp3:okhttp:${ver.okHttp}"
 
-    testCompile "junit:junit:${rootProject.ext.jUnitVersion}"
-    testCompile "org.assertj:assertj-core:${rootProject.ext.assertJVersion}"
-    testCompile "org.mockito:mockito-core:${rootProject.ext.mockitoVersion}"
-    testCompile "org.robolectric:robolectric:${rootProject.ext.robolectricVersion}"
+    testCompile "junit:junit:${ver.jUnit}"
+    testCompile "org.assertj:assertj-core:${ver.assertJ}"
+    testCompile "org.mockito:mockito-core:${ver.mockito}"
+    testCompile "org.robolectric:robolectric:${ver.robolectric}"
+    testCompile "com.squareup.okhttp3:mockwebserver:${ver.okHttp}"
 }

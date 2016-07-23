@@ -3,7 +3,7 @@ package com.tonitealive.app.data.repository
 import com.tonitealive.app.data.JsonSerializer
 import com.tonitealive.app.data.exception.EmailTakenException
 import com.tonitealive.app.data.exception.UsernameTakenException
-import com.tonitealive.app.data.net.ApiService
+import com.tonitealive.app.data.net.ToniteAliveApi
 import com.tonitealive.app.domain.ErrorCodes
 import com.tonitealive.app.domain.model.ApiError
 import com.tonitealive.app.domain.model.User
@@ -27,7 +27,7 @@ class DefaultUsersRepositoryTest {
     val mockitoRule = MockitoJUnit.rule()
 
     @Mock
-    lateinit var mockApiService: ApiService
+    lateinit var mockApi: ToniteAliveApi
 
     @Mock
     lateinit var mockJsonSerializer: JsonSerializer
@@ -36,7 +36,7 @@ class DefaultUsersRepositoryTest {
 
     @Before
     fun setup() {
-        usersRepository = DefaultUsersRepository(mockApiService, mockJsonSerializer)
+        usersRepository = DefaultUsersRepository(mockApi, mockJsonSerializer)
     }
 
     @Test
@@ -53,7 +53,7 @@ class DefaultUsersRepositoryTest {
         val testSubscriber = TestSubscriber<User>()
 
         // When
-        Mockito.`when`(mockApiService.createUser(username, email, password)).thenReturn(testObservable)
+        Mockito.`when`(mockApi.createUser(username, email, password)).thenReturn(testObservable)
         usersRepository.create(username, email, password).subscribe(testSubscriber)
 
         // Then
@@ -84,7 +84,7 @@ class DefaultUsersRepositoryTest {
 
         // When
         Mockito.`when`(mockJsonSerializer.fromString("", ApiError::class.java)).thenReturn(error)
-        Mockito.`when`(mockApiService.createUser(username, email, password)).thenReturn(testObservable)
+        Mockito.`when`(mockApi.createUser(username, email, password)).thenReturn(testObservable)
         usersRepository.create(username, email, password).subscribe(testSubscriber)
 
         // Then
@@ -113,7 +113,7 @@ class DefaultUsersRepositoryTest {
 
         // When
         Mockito.`when`(mockJsonSerializer.fromString("", ApiError::class.java)).thenReturn(error)
-        Mockito.`when`(mockApiService.createUser(username, email, password)).thenReturn(testObservable)
+        Mockito.`when`(mockApi.createUser(username, email, password)).thenReturn(testObservable)
         usersRepository.create(username, email, password).subscribe(testSubscriber)
 
         // Then

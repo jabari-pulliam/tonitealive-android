@@ -6,7 +6,7 @@ import android.widget.Toast
 abstract class BaseFragment : Fragment(), BaseView {
 
     override fun showMessage(message: String, duration: MessageDuration) {
-        var messageDuration: Int = 0
+        val messageDuration: Int
         when (duration) {
             MessageDuration.LONG -> messageDuration = Toast.LENGTH_LONG
             else -> messageDuration = Toast.LENGTH_SHORT

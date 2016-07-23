@@ -27,10 +27,7 @@ class JobExecutor : ThreadExecutor {
             threadFactory)
 
     override fun execute(command: Runnable) {
-        if (command != null)
-            threadPoolExecutor.execute(command)
-        else
-            throw IllegalAccessException("Runnable cannot be null")
+        threadPoolExecutor.execute(command)
     }
 
     private class JobThreadFactory : ThreadFactory {

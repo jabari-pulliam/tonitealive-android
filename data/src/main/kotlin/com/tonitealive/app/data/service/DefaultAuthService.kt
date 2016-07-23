@@ -3,7 +3,7 @@ package com.tonitealive.app.data.service
 import com.tonitealive.app.data.TokenStore
 import com.tonitealive.app.data.exception.InvalidCredentialsException
 import com.tonitealive.app.data.exception.NetworkConnectionException
-import com.tonitealive.app.data.net.ApiService
+import com.tonitealive.app.data.net.ToniteAliveApi
 import com.tonitealive.app.domain.HttpStatusCodes
 import com.tonitealive.app.domain.model.AuthToken
 import com.tonitealive.app.domain.service.AuthService
@@ -15,12 +15,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DefaultAuthService @Inject constructor(private val apiService: ApiService,
+class DefaultAuthService @Inject constructor(private val api: ToniteAliveApi,
                                              private val tokenStore: TokenStore) : AuthService {
 
     override fun login(username: String, password: String): Observable<AuthToken> {
         val subject = AsyncSubject<AuthToken>()
-        apiService.login(username = username, password = password).subscribe({ token ->
+        api.login(username = username, password = password).subscribe({ token ->
             // Store the token
             tokenStore.authToken = token
 
@@ -44,7 +44,7 @@ class DefaultAuthService @Inject constructor(private val apiService: ApiService,
 
     override fun logout(): Observable<Void> {
         val subject = AsyncSubject<Void>()
-        apiService.logout().subscribe({ value ->
+        api.logout().subscribe({ value ->
             // Remove the token
             tokenStore.authToken = null
 

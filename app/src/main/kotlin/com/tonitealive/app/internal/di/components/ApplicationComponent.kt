@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.tonitealive.app.data.JsonSerializer
 import com.tonitealive.app.data.TokenStore
-import com.tonitealive.app.data.net.ApiService
+import com.tonitealive.app.data.net.ToniteAliveApi
 import com.tonitealive.app.domain.executor.PostExecutionThread
 import com.tonitealive.app.domain.executor.ThreadExecutor
 import com.tonitealive.app.domain.repositories.UsersRepository
@@ -24,7 +24,7 @@ interface ApplicationComponent {
     fun navigator(): Navigator
     fun threadExecutor(): ThreadExecutor
     fun postExecutionThread(): PostExecutionThread
-    fun apiService(): ApiService
+    fun toniteAliveApi(): ToniteAliveApi
     fun tokenStore(): TokenStore
     fun sharedPreferences(): SharedPreferences
     fun jsonSerializer(): JsonSerializer

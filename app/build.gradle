@@ -41,6 +41,8 @@ android {
 
 }
 
+def ver = rootProject.ext.ver
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile (project(':data')) {
@@ -50,60 +52,61 @@ dependencies {
         exclude module: 'jsr305'
     }
 
-    compile "com.android.support:multidex:$rootProject.ext.androidMultidexVersion"
-    compile "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.kotlinVersion}"
-    kapt ("com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}") {
+    compile "com.android.support:multidex:$ver.androidMultidex"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:${ver.kotlin}"
+    kapt ("com.google.dagger:dagger-compiler:${ver.dagger}") {
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     }
-    compile "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
-    compile "com.jakewharton:butterknife:${rootProject.ext.butterKnifeVersion}"
-    compile "com.android.support:recyclerview-v7:${rootProject.ext.recyclerViewVersion}"
-    compile "io.reactivex:rxjava:${rootProject.ext.rxJavaVersion}"
-    compile "io.reactivex:rxandroid:${rootProject.ext.rxAndroidVersion}"
-    compile "io.reactivex:rxkotlin:${rootProject.ext.rxKotlinVersion}"
-    compile "javax.annotation:jsr250-api:${rootProject.ext.javaxAnnotationVersion}"
-    compile "com.android.support:support-v4:$rootProject.ext.androidSupportLibVersion"
-    compile "com.android.support:appcompat-v7:$rootProject.ext.androidSupportLibVersion"
-    compile "com.android.support:cardview-v7:$rootProject.ext.androidSupportLibVersion"
-    compile "com.android.support:support-annotations:$rootProject.ext.androidSupportLibVersion"
-    compile "com.android.support:recyclerview-v7:$rootProject.ext.androidSupportLibVersion"
-    compile "com.android.support:design:$rootProject.ext.androidSupportLibVersion"
-    compile "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
-    kapt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeVersion"
-    compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
-    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
-    compile "com.jakewharton.rxbinding:rxbinding-kotlin:$rootProject.ext.rxAndroidExtVersion"
-    compile "com.jakewharton.rxbinding:rxbinding-support-v4-kotlin:$rootProject.ext.rxAndroidExtVersion"
-    compile "com.jakewharton.rxbinding:rxbinding-appcompat-v7-kotlin:$rootProject.ext.rxAndroidExtVersion"
-    compile "com.jakewharton.rxbinding:rxbinding-design-kotlin:$rootProject.ext.rxAndroidExtVersion"
-    compile "com.jakewharton.rxbinding:rxbinding-recyclerview-v7-kotlin:$rootProject.ext.rxAndroidExtVersion"
-    compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
-    compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
-    kapt "com.google.guava:guava:$rootProject.ext.guavaVersion"
-    compile "com.github.tony19:logback-android-core:$rootProject.ext.logbackAndroidVersion"
-    compile "org.slf4j:slf4j-api:$rootProject.ext.slf4jApiVersion"
+    compile "com.google.dagger:dagger:${ver.dagger}"
+    compile "com.jakewharton:butterknife:${ver.butterKnife}"
+    compile "com.android.support:recyclerview-v7:${ver.recyclerView}"
+    compile "io.reactivex:rxjava:${ver.rxJava}"
+    compile "io.reactivex:rxandroid:${ver.rxAndroid}"
+    compile "io.reactivex:rxkotlin:${ver.rxKotlin}"
+    compile "javax.annotation:jsr250-api:${ver.javaxAnnotation}"
+    compile "com.android.support:support-v4:$ver.androidSupportLib"
+    compile "com.android.support:appcompat-v7:$ver.androidSupportLib"
+    compile "com.android.support:cardview-v7:$ver.androidSupportLib"
+    compile "com.android.support:support-annotations:$ver.androidSupportLib"
+    compile "com.android.support:recyclerview-v7:$ver.androidSupportLib"
+    compile "com.android.support:design:$ver.androidSupportLib"
+    compile "com.jakewharton:butterknife:$ver.butterKnife"
+    kapt "com.jakewharton:butterknife-compiler:$ver.butterKnife"
+    compile "com.jakewharton.rxbinding:rxbinding-kotlin:$ver.rxAndroidExt"
+    compile "com.jakewharton.rxbinding:rxbinding-support-v4-kotlin:$ver.rxAndroidExt"
+    compile "com.jakewharton.rxbinding:rxbinding-appcompat-v7-kotlin:$ver.rxAndroidExt"
+    compile "com.jakewharton.rxbinding:rxbinding-design-kotlin:$ver.rxAndroidExt"
+    compile "com.jakewharton.rxbinding:rxbinding-recyclerview-v7-kotlin:$ver.rxAndroidExt"
+    compile "com.google.code.gson:gson:$ver.gson"
+    kapt "com.google.guava:guava:$ver.guava"
+    compile ("com.google.guava:guava:$ver.guava") {
+        force = true
+    }
+    compile "com.github.tony19:logback-android-core:$ver.logbackAndroid"
+    compile "com.github.tony19:logback-android-classic:$ver.logbackAndroid"
+    compile "org.slf4j:slf4j-api:$ver.slf4jApi"
 
-    testCompile "junit:junit:$rootProject.ext.jUnitVersion"
-    testCompile "com.google.code.findbugs:jsr305:$rootProject.ext.jsr305Version"
-    testCompile "com.android.support:support-annotations:$rootProject.ext.androidSupportLibVersion"
-    testCompile "org.robolectric:robolectric:$rootProject.ext.robolectricVersion"
-    testCompile "org.robolectric:shadows-multidex:$rootProject.ext.robolectricMultidexVersion"
-    testCompile "org.mockito:mockito-core:$rootProject.ext.mockitoVersion"
-    testCompile "org.assertj:assertj-core:$rootProject.ext.assertJVersion"
-    testCompile "org.robolectric:shadows-support-v4:$rootProject.ext.robolectricVersion"
-    testCompile "com.squareup.assertj:assertj-android:$rootProject.ext.assertJAndroidVersion"
-    testCompile "com.squareup.assertj:assertj-android-support-v4:$rootProject.ext.assertJAndroidVersion@aar"
-    testCompile "com.google.guava:guava:$rootProject.ext.guavaVersion"
+    testCompile "junit:junit:$ver.jUnit"
+    testCompile "com.google.code.findbugs:jsr305:$ver.jsr305"
+    testCompile "com.android.support:support-annotations:$ver.androidSupportLib"
+    testCompile "org.robolectric:robolectric:$ver.robolectric"
+    testCompile "org.robolectric:shadows-multidex:$ver.robolectricMultidex"
+    testCompile "org.mockito:mockito-core:$ver.mockito"
+    testCompile "org.assertj:assertj-core:$ver.assertJ"
+    testCompile "org.robolectric:shadows-support-v4:$ver.robolectric"
+    testCompile "com.squareup.assertj:assertj-android:$ver.assertJAndroid"
+    testCompile "com.squareup.assertj:assertj-android-support-v4:$ver.assertJAndroid@aar"
+    testCompile "com.google.guava:guava:$ver.guava"
 
-    androidTestCompile "com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
-    androidTestCompile "com.android.support.test:runner:$rootProject.ext.testRunnerVersion"
-    androidTestCompile "com.android.support.test:rules:$rootProject.ext.testRulesVersion"
-    androidTestCompile "com.android.support:support-annotations:$rootProject.ext.androidSupportLibVersion"
-    androidTestCompile "com.google.code.findbugs:jsr305:$rootProject.ext.jsr305Version"
-    androidTestCompile "org.hamcrest:hamcrest-library:$rootProject.ext.hamcrestVersion"
-    androidTestCompile "com.android.support.test.uiautomator:uiautomator-v18:$rootProject.ext.uiAutomatorVersion"
-    androidTestCompile "org.assertj:assertj-core:$rootProject.ext.assertJVersion"
-    androidTestCompile ("com.android.support:multidex-instrumentation:$rootProject.ext.multidexTestRunnerVersion") {
+    androidTestCompile "com.android.support.test.espresso:espresso-core:$ver.espresso"
+    androidTestCompile "com.android.support.test:runner:$ver.testRunner"
+    androidTestCompile "com.android.support.test:rules:$ver.testRules"
+    androidTestCompile "com.android.support:support-annotations:$ver.androidSupportLib"
+    androidTestCompile "com.google.code.findbugs:jsr305:$ver.jsr305"
+    androidTestCompile "org.hamcrest:hamcrest-library:$ver.hamcrest"
+    androidTestCompile "com.android.support.test.uiautomator:uiautomator-v18:$ver.uiAutomator"
+    androidTestCompile "org.assertj:assertj-core:$ver.assertJ"
+    androidTestCompile ("com.android.support:multidex-instrumentation:$ver.multidexTestRunner") {
         exclude group: 'com.android.support', module: 'multidex'
     }
 }

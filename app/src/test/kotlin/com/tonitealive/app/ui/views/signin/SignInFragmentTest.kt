@@ -4,7 +4,7 @@ import android.app.Application
 import com.tonitealive.app.BuildConfig
 import com.tonitealive.app.SDK_VERSION
 import com.tonitealive.app.data.TokenStore
-import com.tonitealive.app.data.net.ApiService
+import com.tonitealive.app.data.net.ToniteAliveApi
 import com.tonitealive.app.domain.interactors.SignInUseCase
 import com.tonitealive.app.domain.service.AuthService
 import com.tonitealive.app.internal.di.components.DaggerApplicationComponent
@@ -25,13 +25,13 @@ import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 import org.robolectric.Robolectric
-import org.robolectric.RobolectricGradleTestRunner
+import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowToast
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil
 
-@RunWith(RobolectricGradleTestRunner::class)
+@RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class, sdk = intArrayOf(SDK_VERSION))
 class SignInFragmentTest {
 
@@ -41,7 +41,7 @@ class SignInFragmentTest {
     lateinit var fragment: SignInFragment
 
     @Mock lateinit var mockPresenter: SignInPresenter
-    @Mock lateinit var mockApiService: ApiService
+    @Mock lateinit var mockApi: ToniteAliveApi
     @Mock lateinit var mockAuthService: AuthService
     @Mock lateinit var mockTokenStore: TokenStore
 
@@ -123,12 +123,12 @@ class SignInFragmentTest {
     }
 
     inner class TestApplicationModule(application: Application) : ApplicationModule(application) {
-        override fun provideAuthService(apiService: ApiService, tokenStore: TokenStore): AuthService {
+        override fun provideAuthService(api: ToniteAliveApi, tokenStore: TokenStore): AuthService {
             return mockAuthService
         }
 
-        override fun provideApiService(): ApiService {
-            return mockApiService
+        override fun provideToniteAliveApi(tokenStore: TokenStore): ToniteAliveApi {
+            return mockApi
         }
     }
 

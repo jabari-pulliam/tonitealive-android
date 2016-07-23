@@ -3,7 +3,7 @@ package com.tonitealive.app.data.service
 import com.tonitealive.app.data.TokenStore
 import com.tonitealive.app.data.exception.InvalidCredentialsException
 import com.tonitealive.app.data.exception.NetworkConnectionException
-import com.tonitealive.app.data.net.ApiService
+import com.tonitealive.app.data.net.ToniteAliveApi
 import com.tonitealive.app.domain.HttpStatusCodes
 import com.tonitealive.app.domain.model.AuthToken
 import com.tonitealive.app.domain.model.User
@@ -27,14 +27,14 @@ class DefaultAuthServiceTest {
     @get:Rule
     val mockitoRule = MockitoJUnit.rule()
 
-    @Mock lateinit var mockApiService: ApiService
+    @Mock lateinit var mockApi: ToniteAliveApi
     @Mock lateinit var mockTokenStore: TokenStore
 
     lateinit var authService: DefaultAuthService
 
     @Before
     fun setup() {
-        authService = DefaultAuthService(mockApiService, mockTokenStore)
+        authService = DefaultAuthService(mockApi, mockTokenStore)
     }
 
     @Test
@@ -53,7 +53,7 @@ class DefaultAuthServiceTest {
         val testSubscriber = TestSubscriber<AuthToken>()
 
         // When
-        Mockito.`when`(mockApiService.login(username = username, password = password)).thenReturn(apiObservable)
+        Mockito.`when`(mockApi.login(username = username, password = password)).thenReturn(apiObservable)
         authService.login(username, password).subscribe(testSubscriber)
 
         // Then
@@ -73,7 +73,7 @@ class DefaultAuthServiceTest {
         val testSubscriber = TestSubscriber<AuthToken>()
 
         // When
-        Mockito.`when`(mockApiService.login(username = username, password = password)).thenReturn(apiObservable)
+        Mockito.`when`(mockApi.login(username = username, password = password)).thenReturn(apiObservable)
         authService.login(username, password).subscribe(testSubscriber)
 
         // Then
@@ -94,7 +94,7 @@ class DefaultAuthServiceTest {
         val testSubscriber = TestSubscriber<AuthToken>()
 
         // When
-        Mockito.`when`(mockApiService.login(username = username, password = password)).thenReturn(apiObservable)
+        Mockito.`when`(mockApi.login(username = username, password = password)).thenReturn(apiObservable)
         authService.login(username, password).subscribe(testSubscriber)
 
         // Then
@@ -111,7 +111,7 @@ class DefaultAuthServiceTest {
         val testSubscriber = TestSubscriber<Void>()
 
         // When
-        Mockito.`when`(mockApiService.logout()).thenReturn(apiObservable)
+        Mockito.`when`(mockApi.logout()).thenReturn(apiObservable)
         authService.logout().subscribe(testSubscriber)
 
         // Then
@@ -129,7 +129,7 @@ class DefaultAuthServiceTest {
         val testSubscriber = TestSubscriber<Void>()
 
         // When
-        Mockito.`when`(mockApiService.logout()).thenReturn(apiObservable)
+        Mockito.`when`(mockApi.logout()).thenReturn(apiObservable)
         authService.logout().subscribe(testSubscriber)
 
         // Then

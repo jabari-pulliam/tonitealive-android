@@ -2,7 +2,7 @@ package com.tonitealive.app.data.repository
 
 import com.tonitealive.app.data.JsonSerializer
 import com.tonitealive.app.data.exception.*
-import com.tonitealive.app.data.net.ApiService
+import com.tonitealive.app.data.net.ToniteAliveApi
 import com.tonitealive.app.domain.ErrorCodes
 import com.tonitealive.app.domain.model.ApiError
 import com.tonitealive.app.domain.model.User
@@ -16,12 +16,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DefaultUsersRepository @Inject constructor(private val apiService: ApiService,
+class DefaultUsersRepository @Inject constructor(private val api: ToniteAliveApi,
                                                  private val jsonSerializer: JsonSerializer) : UsersRepository {
 
     override fun getByUsername(username: String): Observable<User> {
         val subject = AsyncSubject<User>()
-        apiService.getUserByUsername(username).subscribe({user ->
+        api.getUserByUsername(username).subscribe({user ->
             subject.onNext(user)
             subject.onCompleted()
         }, {error ->
@@ -41,7 +41,7 @@ class DefaultUsersRepository @Inject constructor(private val apiService: ApiServ
 
     override fun getByEmail(email: String): Observable<User> {
         val subject = AsyncSubject<User>()
-        apiService.getUserByEmail(email).subscribe({user ->
+        api.getUserByEmail(email).subscribe({user ->
             subject.onNext(user)
             subject.onCompleted()
         }, {error ->
@@ -59,7 +59,7 @@ class DefaultUsersRepository @Inject constructor(private val apiService: ApiServ
 
     override fun create(username: String, email: String, password: String): Observable<User> {
         val subject = AsyncSubject<User>()
-        apiService.createUser(username, email, password).subscribe({user ->
+        api.createUser(username, email, password).subscribe({user ->
             subject.onNext(user)
             subject.onCompleted()
         }, {error ->
@@ -85,7 +85,7 @@ class DefaultUsersRepository @Inject constructor(private val apiService: ApiServ
 
     override fun remove(username: String): Observable<Void> {
         val subject = AsyncSubject<Void>()
-        apiService.removeUser(username).subscribe({
+        api.removeUser(username).subscribe({
             subject.onNext(null)
             subject.onCompleted()
         }, {error ->

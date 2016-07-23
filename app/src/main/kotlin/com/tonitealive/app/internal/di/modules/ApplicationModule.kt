@@ -9,7 +9,8 @@ import com.fatboyindustrial.gsonjodatime.Converters
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.tonitealive.app.data.*
-import com.tonitealive.app.data.net.ApiService
+import com.tonitealive.app.data.net.RetrofitToniteAliveApi
+import com.tonitealive.app.data.net.ToniteAliveApi
 import com.tonitealive.app.data.repository.DefaultUsersRepository
 import com.tonitealive.app.data.service.DefaultAuthService
 import com.tonitealive.app.domain.executor.PostExecutionThread
@@ -20,8 +21,6 @@ import com.tonitealive.app.ui.DefaultNavigator
 import com.tonitealive.app.ui.Navigator
 import dagger.Module
 import dagger.Provides
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -41,18 +40,11 @@ open class ApplicationModule(private val application: Application) {
 
     @Provides
     @Singleton
-    open fun provideApiService(): ApiService {
+    open fun provideToniteAliveApi(tokenStore: TokenStore): ToniteAliveApi {
         val info = application.packageManager.getApplicationInfo(application.packageName,
                 PackageManager.GET_META_DATA)
         val apiBaseUrl = info.metaData.getString("API_BASE_URL")
-
-        // Register Gson modules
-        val gsonBuilder = GsonBuilder()
-        val retrofit = Retrofit.Builder()
-                .baseUrl(apiBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create(gsonBuilder.create()))
-                .build()
-        return retrofit.create(ApiService::class.java)
+        return RetrofitToniteAliveApi(apiBaseUrl, tokenStore)
     }
 
     @Provides
@@ -83,8 +75,8 @@ open class ApplicationModule(private val application: Application) {
 
     @Provides
     @Singleton
-    open fun provideAuthService(apiService: ApiService, tokenStore: TokenStore): AuthService {
-        return DefaultAuthService(apiService, tokenStore)
+    open fun provideAuthService(api: ToniteAliveApi, tokenStore: TokenStore): AuthService {
+        return DefaultAuthService(api, tokenStore)
     }
 
     @Provides
@@ -101,7 +93,7 @@ open class ApplicationModule(private val application: Application) {
 
     @Provides
     @Singleton
-    open fun provideUsersRepository(apiService: ApiService, jsonSerializer: JsonSerializer): UsersRepository {
-        return DefaultUsersRepository(apiService, jsonSerializer)
+    open fun provideUsersRepository(api: ToniteAliveApi, jsonSerializer: JsonSerializer): UsersRepository {
+        return DefaultUsersRepository(api, jsonSerializer)
     }
 }

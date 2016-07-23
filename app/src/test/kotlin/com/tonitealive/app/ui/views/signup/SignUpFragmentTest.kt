@@ -7,7 +7,8 @@ import com.tonitealive.app.SDK_VERSION
 import com.tonitealive.app.ToniteAliveApplication
 import com.tonitealive.app.data.JsonSerializer
 import com.tonitealive.app.data.TokenStore
-import com.tonitealive.app.data.net.ApiService
+import com.tonitealive.app.data.net.ToniteAliveApi
+import com.tonitealive.app.domain.interactors.SignUpUseCase
 import com.tonitealive.app.domain.service.AuthService
 import com.tonitealive.app.internal.di.components.DaggerSignUpComponent
 import com.tonitealive.app.internal.di.modules.ApplicationModule
@@ -24,19 +25,19 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnit
 import org.robolectric.Robolectric
-import org.robolectric.RobolectricGradleTestRunner
+import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil
 
-@RunWith(RobolectricGradleTestRunner::class)
+@RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class, sdk = intArrayOf(SDK_VERSION))
 class SignUpFragmentTest {
 
     @get:Rule
     val mockitoRule = MockitoJUnit.rule()
 
-    @Mock lateinit var mockApiService: ApiService
+    @Mock lateinit var mockApi: ToniteAliveApi
     @Mock lateinit var mockTokenStore: TokenStore
     @Mock lateinit var mockAuthService: AuthService
     @Mock lateinit var mockPresenter: SignUpPresenter
@@ -111,21 +112,21 @@ class SignUpFragmentTest {
 
 
     inner class TestApplicationModule(application: Application) : ApplicationModule(application) {
-        override fun provideApiService(): ApiService {
-            return mockApiService
+        override fun provideToniteAliveApi(tokenStore: TokenStore): ToniteAliveApi {
+            return mockApi
         }
 
         override fun provideTokenStore(sharedPreferences: SharedPreferences, serializer: JsonSerializer): TokenStore {
             return mockTokenStore
         }
 
-        override fun provideAuthService(apiService: ApiService, tokenStore: TokenStore): AuthService {
+        override fun provideAuthService(api: ToniteAliveApi, tokenStore: TokenStore): AuthService {
             return mockAuthService
         }
     }
 
     inner class TestSignUpModule(view: SignUpView) : SignUpModule(view) {
-        override fun provideSignUpPresenter(): SignUpPresenter {
+        override fun provideSignUpPresenter(signUpUseCase: SignUpUseCase): SignUpPresenter {
             return mockPresenter
         }
     }
