@@ -4,7 +4,6 @@ import com.tonitealive.app.data.TokenStore
 import com.tonitealive.app.domain.executor.PostExecutionThread
 import com.tonitealive.app.domain.executor.ThreadExecutor
 import com.tonitealive.app.domain.interactors.SignInUseCase
-import com.tonitealive.app.domain.model.AuthToken
 import com.tonitealive.app.domain.service.AuthService
 import com.tonitealive.app.ui.Navigator
 import com.tonitealive.app.ui.views.signin.SignInView
@@ -49,7 +48,7 @@ class DefaultSignInPresenterTest {
         Mockito.`when`(mockView.username).thenReturn(username)
         Mockito.`when`(mockView.password).thenReturn(password)
         Mockito.`when`(mockAuthService.login(username, password)).thenReturn(observable { subscriber ->
-            subscriber.onNext(AuthToken(1L, "password", "token", "token"))
+            subscriber.onNext(null)
             subscriber.onCompleted()
         })
         presenter.onSignInButtonClicked()

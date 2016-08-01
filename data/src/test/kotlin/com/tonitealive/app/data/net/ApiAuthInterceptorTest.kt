@@ -1,7 +1,7 @@
 package com.tonitealive.app.data.net
 
+import com.google.common.base.Optional
 import com.tonitealive.app.data.TokenStore
-import com.tonitealive.app.domain.model.AuthToken
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -55,19 +55,18 @@ class ApiAuthInterceptorTest {
     fun intercept_withToken_shouldAddTokenToAuthHeader() {
         // With
         val token = "123456"
-        val authToken = AuthToken(1L, "password", token, "foo")
         val request = Request.Builder()
                         .url(serverUrl)
                         .get()
                         .build()
 
         // When
-        Mockito.`when`(mockTokenStore.authToken).thenReturn(authToken)
+        Mockito.`when`(mockTokenStore.authToken).thenReturn(Optional.of(token))
         client.newCall(request).execute()
         val recordedRequest = mockWebServer.takeRequest()
 
         // Then
-        assertThat(recordedRequest.getHeader("Authorization")).isEqualTo("Bearer ${authToken.accessToken}")
+        assertThat(recordedRequest.getHeader("Authorization")).isEqualTo("Bearer $token")
     }
 
     @Test

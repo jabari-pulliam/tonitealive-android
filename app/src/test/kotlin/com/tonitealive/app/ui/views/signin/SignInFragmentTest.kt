@@ -5,6 +5,7 @@ import com.tonitealive.app.BuildConfig
 import com.tonitealive.app.SDK_VERSION
 import com.tonitealive.app.data.TokenStore
 import com.tonitealive.app.data.net.ToniteAliveApi
+import com.tonitealive.app.data.service.StormpathAuthService
 import com.tonitealive.app.domain.interactors.SignInUseCase
 import com.tonitealive.app.domain.service.AuthService
 import com.tonitealive.app.internal.di.components.DaggerApplicationComponent
@@ -123,7 +124,8 @@ class SignInFragmentTest {
     }
 
     inner class TestApplicationModule(application: Application) : ApplicationModule(application) {
-        override fun provideAuthService(api: ToniteAliveApi, tokenStore: TokenStore): AuthService {
+
+        override fun provideAuthService(authService: StormpathAuthService): AuthService {
             return mockAuthService
         }
 

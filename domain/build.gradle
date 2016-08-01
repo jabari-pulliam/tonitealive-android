@@ -1,28 +1,26 @@
-apply plugin: 'kotlin'
+apply plugin: 'java'
+apply plugin: "net.ltgt.apt"
+apply plugin: 'me.tatarka.retrolambda'
 
 def ver = rootProject.ext.ver
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib:${ver.kotlin}"
-    compile "com.google.dagger:dagger-compiler:${ver.dagger}"
+    apt "com.google.dagger:dagger-compiler:${ver.dagger}"
     compile "com.google.dagger:dagger:${ver.dagger}"
     compile "javax.annotation:jsr250-api:${ver.javaxAnnotation}"
     compile "javax.inject:javax.inject:${ver.javaxInject}"
     compile "io.reactivex:rxjava:${ver.rxJava}"
-    compile "io.reactivex:rxkotlin:${ver.rxKotlin}"
     compile "com.google.code.gson:gson:$ver.gson"
     compile "org.slf4j:slf4j-api:$ver.slf4jApi"
     compile "io.reactivex:rxjava-joins:${ver.rxJavaExt}"
+    compile "com.google.auto.value:auto-value:1.2"
+    apt "com.google.auto.value:auto-value:1.2"
+    apt 'com.ryanharter.auto.value:auto-value-gson:0.4.0'
 
     testCompile "junit:junit:${ver.jUnit}"
     testCompile "org.mockito:mockito-core:${ver.mockito}"
 }
 
-sourceSets {
-    main.java.srcDirs += 'src/main/kotlin'
-    test.java.srcDirs += 'src/test/kotlin'
-    androidTest.java.srcDirs += 'src/androidTest/kotlin'
-}
 

@@ -1,13 +1,12 @@
 package com.tonitealive.app.ui.views.signup
 
 import android.app.Application
-import android.content.SharedPreferences
 import com.tonitealive.app.BuildConfig
 import com.tonitealive.app.SDK_VERSION
 import com.tonitealive.app.ToniteAliveApplication
-import com.tonitealive.app.data.JsonSerializer
 import com.tonitealive.app.data.TokenStore
 import com.tonitealive.app.data.net.ToniteAliveApi
+import com.tonitealive.app.data.service.StormpathAuthService
 import com.tonitealive.app.domain.interactors.SignUpUseCase
 import com.tonitealive.app.domain.service.AuthService
 import com.tonitealive.app.internal.di.components.DaggerSignUpComponent
@@ -116,11 +115,11 @@ class SignUpFragmentTest {
             return mockApi
         }
 
-        override fun provideTokenStore(sharedPreferences: SharedPreferences, serializer: JsonSerializer): TokenStore {
+        override fun provideTokenStore(): TokenStore {
             return mockTokenStore
         }
 
-        override fun provideAuthService(api: ToniteAliveApi, tokenStore: TokenStore): AuthService {
+        override fun provideAuthService(authService: StormpathAuthService): AuthService {
             return mockAuthService
         }
     }

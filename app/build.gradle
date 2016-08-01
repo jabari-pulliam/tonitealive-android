@@ -1,18 +1,17 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
-kapt {
-    generateStubs true
-}
+def ver = rootProject.ext.ver
 
 android {
-    compileSdkVersion rootProject.ext.androidCompileSdkVersion
-    buildToolsVersion rootProject.ext.androidBuildToolsVersion
+    compileSdkVersion ver.androidCompileSdk
+    buildToolsVersion ver.androidBuildTools
 
     defaultConfig {
         applicationId "com.tonitealive.app"
-        minSdkVersion rootProject.ext.androidMinSdkVersion
-        targetSdkVersion rootProject.ext.androidTargetSdkVersion
+        minSdkVersion ver.androidMinSdk
+        targetSdkVersion ver.androidTargetSdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.MultiDexTestRunner"
@@ -34,14 +33,18 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_7
-//        targetCompatibility JavaVersion.VERSION_1_7
-//    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
 
 }
-
-def ver = rootProject.ext.ver
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -54,7 +57,7 @@ dependencies {
 
     compile "com.android.support:multidex:$ver.androidMultidex"
     compile "org.jetbrains.kotlin:kotlin-stdlib:${ver.kotlin}"
-    kapt ("com.google.dagger:dagger-compiler:${ver.dagger}") {
+    apt ("com.google.dagger:dagger-compiler:${ver.dagger}") {
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     }
     compile "com.google.dagger:dagger:${ver.dagger}"
@@ -71,20 +74,21 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$ver.androidSupportLib"
     compile "com.android.support:design:$ver.androidSupportLib"
     compile "com.jakewharton:butterknife:$ver.butterKnife"
-    kapt "com.jakewharton:butterknife-compiler:$ver.butterKnife"
+    apt "com.jakewharton:butterknife-compiler:$ver.butterKnife"
     compile "com.jakewharton.rxbinding:rxbinding-kotlin:$ver.rxAndroidExt"
     compile "com.jakewharton.rxbinding:rxbinding-support-v4-kotlin:$ver.rxAndroidExt"
     compile "com.jakewharton.rxbinding:rxbinding-appcompat-v7-kotlin:$ver.rxAndroidExt"
     compile "com.jakewharton.rxbinding:rxbinding-design-kotlin:$ver.rxAndroidExt"
     compile "com.jakewharton.rxbinding:rxbinding-recyclerview-v7-kotlin:$ver.rxAndroidExt"
     compile "com.google.code.gson:gson:$ver.gson"
-    kapt "com.google.guava:guava:$ver.guava"
+    apt "com.google.guava:guava:$ver.guava"
     compile ("com.google.guava:guava:$ver.guava") {
         force = true
     }
     compile "com.github.tony19:logback-android-core:$ver.logbackAndroid"
     compile "com.github.tony19:logback-android-classic:$ver.logbackAndroid"
     compile "org.slf4j:slf4j-api:$ver.slf4jApi"
+    compile "com.stormpath.sdk:stormpath-sdk-android:${ver.stormpathSdkAndroid}"
 
     testCompile "junit:junit:$ver.jUnit"
     testCompile "com.google.code.findbugs:jsr305:$ver.jsr305"

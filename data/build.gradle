@@ -1,9 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-
-kapt {
-    generateStubs true
-}
+apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 def ver = rootProject.ext.ver
 
@@ -24,10 +21,9 @@ android {
         }
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
-        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -35,15 +31,13 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':domain')
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib:${ver.kotlin}"
-    kapt ("com.google.dagger:dagger-compiler:${ver.dagger}") {
+    apt ("com.google.dagger:dagger-compiler:${ver.dagger}") {
         exclude module: 'jsr305'
     }
     compile "com.google.dagger:dagger:${ver.dagger}"
     compile "com.google.code.gson:gson:${ver.gson}"
     compile "io.reactivex:rxjava:${ver.rxJava}"
     compile "io.reactivex:rxandroid:${ver.rxAndroid}"
-    compile "io.reactivex:rxkotlin:${ver.rxKotlin}"
     compile "javax.annotation:jsr250-api:${ver.javaxAnnotation}"
     compile "javax.inject:javax.inject:${ver.javaxInject}"
     compile ("com.squareup.retrofit2:retrofit:${ver.retrofit}") {
@@ -59,11 +53,13 @@ dependencies {
     compile ("com.google.guava:guava:$ver.guava") {
         force = true
     }
-    kapt "com.google.guava:guava:$ver.guava"
+    apt "com.google.guava:guava:$ver.guava"
     compile "com.github.tony19:logback-android-core:$ver.logbackAndroid"
     compile "com.github.tony19:logback-android-classic:$ver.logbackAndroid"
     compile "org.slf4j:slf4j-api:$ver.slf4jApi"
     compile "com.squareup.okhttp3:okhttp:${ver.okHttp}"
+    compile "com.vincentbrison.openlibraries.android:dualcache:${ver.dualcache}"
+    compile "com.stormpath.sdk:stormpath-sdk-android:${ver.stormpathSdkAndroid}"
 
     testCompile "junit:junit:${ver.jUnit}"
     testCompile "org.assertj:assertj-core:${ver.assertJ}"
