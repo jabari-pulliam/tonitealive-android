@@ -39,7 +39,11 @@ public final class SignUpFragment extends BaseFragment implements SignUpView {
 
     @Inject SignUpPresenter presenter;
 
-    SignUpComponent component;
+    private SignUpComponent component;
+
+    void setComponent(SignUpComponent component) {
+        this.component = component;
+    }
 
     private SignUpComponent buildComponent() {
         ToniteAliveApplication application = (ToniteAliveApplication) getActivity().getApplication();

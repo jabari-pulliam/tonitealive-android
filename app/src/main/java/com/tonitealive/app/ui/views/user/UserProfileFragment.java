@@ -12,7 +12,11 @@ import com.tonitealive.app.ui.views.BaseFragment;
 
 public final class UserProfileFragment extends BaseFragment implements UserProfileView {
 
-    UserProfileComponent component;
+    private UserProfileComponent component;
+
+    void setComponent(UserProfileComponent component) {
+        this.component = component;
+    }
 
     private UserProfileComponent buildComponent() {
         ToniteAliveApplication application = (ToniteAliveApplication) getActivity().getApplication();

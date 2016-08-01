@@ -1,8 +1,5 @@
 ext {
     ver = [
-            // Kotlin
-            kotlin: '1.0.3',
-
             //Android
             androidBuildTools:  "24.0.1",
             androidSupportLib: "24.1.1",
@@ -19,7 +16,6 @@ ext {
             rxJavaExt: '0.22.0',
             rxAndroid: '1.2.1',
             rxAndroidExt: '0.4.0',
-            rxKotlin: '0.60.0',
             javaxAnnotation: '1.0',
             javaxInject: '1',
             gson: '2.7',

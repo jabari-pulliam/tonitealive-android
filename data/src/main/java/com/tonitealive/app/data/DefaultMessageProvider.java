@@ -15,6 +15,7 @@ public class DefaultMessageProvider implements MessageProvider {
 
     public DefaultMessageProvider(Context context) {
         this.context = context;
+        initMessageCodes();
     }
 
     @Override

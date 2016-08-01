@@ -36,7 +36,11 @@ public final class SignInFragment extends BaseFragment implements SignInView {
     @BindView(R.id.progress_bar) ProgressBar progressBar;
 
 
-    SignInComponent component;
+    private SignInComponent component;
+
+    void setComponent(SignInComponent component) {
+        this.component = component;
+    }
 
     public static SignInFragment newInstance() {
         return new SignInFragment();

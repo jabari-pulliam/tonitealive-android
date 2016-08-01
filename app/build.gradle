@@ -28,11 +28,6 @@ android {
             testCoverageEnabled true
         }
     }
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
-        androidTest.java.srcDirs += 'src/androidTest/kotlin'
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -65,7 +60,6 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${ver.recyclerView}"
     compile "io.reactivex:rxjava:${ver.rxJava}"
     compile "io.reactivex:rxandroid:${ver.rxAndroid}"
-    compile "io.reactivex:rxkotlin:${ver.rxKotlin}"
     compile "javax.annotation:jsr250-api:${ver.javaxAnnotation}"
     compile "com.android.support:support-v4:$ver.androidSupportLib"
     compile "com.android.support:appcompat-v7:$ver.androidSupportLib"
