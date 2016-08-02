@@ -13,7 +13,6 @@ import com.tonitealive.app.domain.repositories.UsersRepository;
 import com.tonitealive.app.domain.service.AuthService;
 import com.tonitealive.app.internal.di.modules.ApplicationModule;
 import com.tonitealive.app.ui.Navigator;
-import com.tonitealive.app.ui.views.BaseActivity;
 
 import javax.inject.Singleton;
 
@@ -22,7 +21,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = {ApplicationModule.class})
 public interface ApplicationComponent {
-    void inject(BaseActivity baseActivity);
+    //void inject(BaseActivity baseActivity);
 
     Context context();
     Navigator navigator();

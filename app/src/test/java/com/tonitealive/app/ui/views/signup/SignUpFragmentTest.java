@@ -3,17 +3,12 @@ package com.tonitealive.app.ui.views.signup;
 import android.app.Application;
 
 import com.tonitealive.app.BuildConfig;
-import com.tonitealive.app.data.TokenStore;
-import com.tonitealive.app.data.net.ToniteAliveApi;
-import com.tonitealive.app.data.service.StormpathAuthService;
-import com.tonitealive.app.domain.interactors.SignUpUseCase;
-import com.tonitealive.app.domain.service.AuthService;
+import com.tonitealive.app.TestApplication;
+import com.tonitealive.app.internal.di.ComponentFactorySupport;
 import com.tonitealive.app.internal.di.components.ApplicationComponent;
-import com.tonitealive.app.internal.di.components.DaggerApplicationComponent;
-import com.tonitealive.app.internal.di.components.DaggerSignUpComponent;
 import com.tonitealive.app.internal.di.components.SignUpComponent;
-import com.tonitealive.app.internal.di.modules.ApplicationModule;
-import com.tonitealive.app.internal.di.modules.SignUpModule;
+import com.tonitealive.app.internal.di.components.support.ApplicationComponentSupport;
+import com.tonitealive.app.internal.di.components.support.SignUpComponentSupport;
 import com.tonitealive.app.ui.presenters.signup.SignUpPresenter;
 
 import org.junit.After;
@@ -36,15 +31,11 @@ import static org.assertj.android.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = {SDK_VERSION})
+@Config(constants = BuildConfig.class, sdk = {SDK_VERSION}, application = TestApplication.class)
 public class SignUpFragmentTest {
 
-    @Rule
-    public final MockitoRule mockitoRule = MockitoJUnit.rule();
+    @Rule public final MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    @Mock ToniteAliveApi mockApi;
-    @Mock TokenStore mockTokenStore;
-    @Mock AuthService mockAuthService;
     @Mock SignUpPresenter mockPresenter;
 
     SignUpFragment signUpFragment;
@@ -53,16 +44,10 @@ public class SignUpFragmentTest {
 
     @Before
     public void setup() {
-        signUpFragment = SignUpFragment.newInstance();
-        ApplicationComponent applicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(new TestApplicationModule(RuntimeEnvironment.application))
-                .build();
-        SignUpComponent component = DaggerSignUpComponent.builder()
-            .applicationComponent(applicationComponent)
-            .signUpModule(new TestSignUpModule(signUpFragment))
-            .build();
-        signUpFragment.setComponent(component);
+        TestApplication testApplication = (TestApplication) RuntimeEnvironment.application;
+        testApplication.setComponentFactory(new TestComponentFactory());
 
+        signUpFragment = SignUpFragment.newInstance();
         SupportFragmentTestUtil.startFragment(signUpFragment);
     }
 
@@ -119,39 +104,23 @@ public class SignUpFragmentTest {
         assertThat(signUpFragment.getConfirmPassword()).isEqualTo(confirmPassword);
     }
 
-    private class TestApplicationModule extends ApplicationModule {
+    private class TestComponentFactory extends ComponentFactorySupport {
 
-        public TestApplicationModule(Application application) {
-            super(application);
+        @Override
+        public ApplicationComponent createApplicationComponent(Application application) {
+            return new ApplicationComponentSupport();
         }
 
         @Override
-        public ToniteAliveApi provideToniteAliveApi(TokenStore tokenStore) {
-            return mockApi;
+        public SignUpComponent createSignUpComponent(ApplicationComponent applicationComponent, SignUpView signUpView) {
+            return new SignUpComponentSupport() {
+                @Override
+                public void inject(SignUpFragment fragment) {
+                    fragment.presenter = mockPresenter;
+                }
+            };
         }
-
-        @Override
-        public TokenStore provideTokenStore() {
-            return mockTokenStore;
-        }
-
-        @Override
-        public AuthService provideAuthService(StormpathAuthService authService) {
-            return mockAuthService;
-        }
-
 
     }
 
-    private class TestSignUpModule extends SignUpModule {
-
-        TestSignUpModule(SignUpView view) {
-            super(view);
-        }
-
-        @Override
-        public SignUpPresenter provideSignUpPresenter(SignUpUseCase signUpUseCase) {
-            return mockPresenter;
-        }
-    }
 }

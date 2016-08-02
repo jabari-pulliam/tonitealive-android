@@ -11,9 +11,8 @@ import android.widget.ProgressBar;
 
 import com.tonitealive.app.R;
 import com.tonitealive.app.ToniteAliveApplication;
-import com.tonitealive.app.internal.di.components.DaggerSignInComponent;
+import com.tonitealive.app.internal.di.ComponentFactory;
 import com.tonitealive.app.internal.di.components.SignInComponent;
-import com.tonitealive.app.internal.di.modules.SignInModule;
 import com.tonitealive.app.ui.presenters.signin.SignInPresenter;
 import com.tonitealive.app.ui.views.BaseFragment;
 
@@ -35,23 +34,8 @@ public final class SignInFragment extends BaseFragment implements SignInView {
     @BindView(R.id.forgot_password_button) Button forgotPasswordButton;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
 
-
-    private SignInComponent component;
-
-    void setComponent(SignInComponent component) {
-        this.component = component;
-    }
-
     public static SignInFragment newInstance() {
         return new SignInFragment();
-    }
-
-    private SignInComponent buildComponent() {
-        ToniteAliveApplication application = (ToniteAliveApplication) getActivity().getApplication();
-        return DaggerSignInComponent.builder()
-                .applicationComponent(application.getApplicationComponent())
-                .signInModule(new SignInModule(this))
-                .build();
     }
 
     @Override
@@ -76,10 +60,10 @@ public final class SignInFragment extends BaseFragment implements SignInView {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (component == null)
-            component = buildComponent();
+    protected void initInjector() {
+        ToniteAliveApplication application = (ToniteAliveApplication) getActivity().getApplication();
+        ComponentFactory componentFactory = application.getComponentFactory();
+        SignInComponent component = componentFactory.createSignInComponent(application.getApplicationComponent(), this);
         component.inject(this);
     }
 

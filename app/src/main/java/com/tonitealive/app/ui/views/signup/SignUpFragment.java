@@ -11,9 +11,9 @@ import android.widget.ProgressBar;
 
 import com.tonitealive.app.R;
 import com.tonitealive.app.ToniteAliveApplication;
-import com.tonitealive.app.internal.di.components.DaggerSignUpComponent;
+import com.tonitealive.app.internal.di.ComponentFactory;
+import com.tonitealive.app.internal.di.components.ApplicationComponent;
 import com.tonitealive.app.internal.di.components.SignUpComponent;
-import com.tonitealive.app.internal.di.modules.SignUpModule;
 import com.tonitealive.app.ui.presenters.signup.SignUpPresenter;
 import com.tonitealive.app.ui.views.BaseFragment;
 
@@ -39,18 +39,13 @@ public final class SignUpFragment extends BaseFragment implements SignUpView {
 
     @Inject SignUpPresenter presenter;
 
-    private SignUpComponent component;
-
-    void setComponent(SignUpComponent component) {
-        this.component = component;
-    }
-
-    private SignUpComponent buildComponent() {
-        ToniteAliveApplication application = (ToniteAliveApplication) getActivity().getApplication();
-        return DaggerSignUpComponent.builder()
-                .applicationComponent(application.getApplicationComponent())
-                .signUpModule(new SignUpModule(this))
-                .build();
+    @Override
+    protected void initInjector() {
+        ToniteAliveApplication application = getApplication();
+        ApplicationComponent applicationComponent = getApplication().getApplicationComponent();
+        ComponentFactory componentFactory = getApplication().getComponentFactory();
+        SignUpComponent component = componentFactory.createSignUpComponent(applicationComponent, this);
+        component.inject(this);
     }
 
     @Override
@@ -84,14 +79,6 @@ public final class SignUpFragment extends BaseFragment implements SignUpView {
         progressBar.setVisibility(View.GONE);
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (component == null)
-            component = buildComponent();
-        component.inject(this);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -101,7 +88,7 @@ public final class SignUpFragment extends BaseFragment implements SignUpView {
     }
 
     @OnClick(R.id.signUpButton)
-    void onSignInButtonClicked() {
+    void onSignUpButtonClicked() {
         presenter.onSignUpButtonClicked();
     }
 }

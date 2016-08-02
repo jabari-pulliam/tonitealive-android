@@ -1,20 +1,11 @@
 package com.tonitealive.app.ui.views.signin;
 
-import android.app.Application;
-
 import com.tonitealive.app.BuildConfig;
-import com.tonitealive.app.data.TokenStore;
-import com.tonitealive.app.data.net.ToniteAliveApi;
-import com.tonitealive.app.data.service.StormpathAuthService;
-import com.tonitealive.app.domain.interactors.SignInUseCase;
-import com.tonitealive.app.domain.service.AuthService;
+import com.tonitealive.app.TestApplication;
+import com.tonitealive.app.internal.di.ComponentFactorySupport;
 import com.tonitealive.app.internal.di.components.ApplicationComponent;
-import com.tonitealive.app.internal.di.components.DaggerApplicationComponent;
-import com.tonitealive.app.internal.di.components.DaggerSignInComponent;
 import com.tonitealive.app.internal.di.components.SignInComponent;
-import com.tonitealive.app.internal.di.modules.ApplicationModule;
-import com.tonitealive.app.internal.di.modules.SignInModule;
-import com.tonitealive.app.ui.Navigator;
+import com.tonitealive.app.internal.di.components.support.SignInComponentSupport;
 import com.tonitealive.app.ui.presenters.signin.SignInPresenter;
 
 import org.junit.After;
@@ -38,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = {SDK_VERSION})
+@Config(constants = BuildConfig.class, sdk = {SDK_VERSION}, application = TestApplication.class)
 public class SignInFragmentTest {
 
     @Rule
@@ -47,23 +38,14 @@ public class SignInFragmentTest {
     SignInFragment fragment;
 
     @Mock SignInPresenter mockPresenter;
-    @Mock ToniteAliveApi mockApi;
-    @Mock AuthService mockAuthService;
-    @Mock TokenStore mockTokenStore;
 
     public SignInFragmentTest() {}
 
     @Before
     public void setup() {
-        ApplicationComponent appComponent = DaggerApplicationComponent.builder()
-            .applicationModule(new TestApplicationModule(RuntimeEnvironment.application))
-            .build();
+        TestApplication application = (TestApplication) RuntimeEnvironment.application;
+        application.setComponentFactory(new TestComponentFactory());
         fragment = SignInFragment.newInstance();
-        SignInComponent component = DaggerSignInComponent.builder()
-                .applicationComponent(appComponent)
-                .signInModule(new TestSignInModule(fragment))
-                .build();
-        fragment.setComponent(component);
         SupportFragmentTestUtil.startFragment(fragment);
     }
 
@@ -130,37 +112,15 @@ public class SignInFragmentTest {
         assertThat(ShadowToast.showedToast(message)).isTrue();
     }
 
-    private class TestApplicationModule extends ApplicationModule {
-
-        public TestApplicationModule(Application application) {
-            super(application);
-        }
-
+    private class TestComponentFactory extends ComponentFactorySupport {
         @Override
-        public AuthService provideAuthService(StormpathAuthService authService) {
-            return mockAuthService;
-        }
-
-        @Override
-        public ToniteAliveApi provideToniteAliveApi(TokenStore tokenStore) {
-            return mockApi;
-        }
-
-        @Override
-        public TokenStore provideTokenStore() {
-            return mockTokenStore;
-        }
-    }
-
-    private class TestSignInModule extends SignInModule {
-
-        public TestSignInModule(SignInView view) {
-            super(view);
-        }
-
-        @Override
-        public SignInPresenter providePresenter(SignInUseCase signInUseCase, Navigator navigator) {
-            return mockPresenter;
+        public SignInComponent createSignInComponent(ApplicationComponent applicationComponent, SignInView signInView) {
+            return new SignInComponentSupport() {
+                @Override
+                public void inject(SignInFragment signInFragment) {
+                    signInFragment.presenter = mockPresenter;
+                }
+            };
         }
     }
 
