@@ -10,9 +10,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.tonitealive.app.R;
-import com.tonitealive.app.ToniteAliveApplication;
-import com.tonitealive.app.internal.di.ComponentFactory;
-import com.tonitealive.app.internal.di.components.ApplicationComponent;
 import com.tonitealive.app.internal.di.components.SignUpComponent;
 import com.tonitealive.app.ui.presenters.signup.SignUpPresenter;
 import com.tonitealive.app.ui.views.BaseFragment;
@@ -41,10 +38,7 @@ public final class SignUpFragment extends BaseFragment implements SignUpView {
 
     @Override
     protected void initInjector() {
-        ToniteAliveApplication application = getApplication();
-        ApplicationComponent applicationComponent = getApplication().getApplicationComponent();
-        ComponentFactory componentFactory = getApplication().getComponentFactory();
-        SignUpComponent component = componentFactory.createSignUpComponent(applicationComponent, this);
+        SignUpComponent component = getComponentFactory().createSignUpComponent(getApplicationComponent(), this);
         component.inject(this);
     }
 

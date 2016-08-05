@@ -2,7 +2,7 @@ package com.tonitealive.app.ui.views.signin;
 
 import com.tonitealive.app.BuildConfig;
 import com.tonitealive.app.TestApplication;
-import com.tonitealive.app.internal.di.ComponentFactorySupport;
+import com.tonitealive.app.internal.di.DefaultComponentFactory;
 import com.tonitealive.app.internal.di.components.ApplicationComponent;
 import com.tonitealive.app.internal.di.components.SignInComponent;
 import com.tonitealive.app.internal.di.components.support.SignInComponentSupport;
@@ -112,7 +112,7 @@ public class SignInFragmentTest {
         assertThat(ShadowToast.showedToast(message)).isTrue();
     }
 
-    private class TestComponentFactory extends ComponentFactorySupport {
+    private class TestComponentFactory extends DefaultComponentFactory {
         @Override
         public SignInComponent createSignInComponent(ApplicationComponent applicationComponent, SignInView signInView) {
             return new SignInComponentSupport() {

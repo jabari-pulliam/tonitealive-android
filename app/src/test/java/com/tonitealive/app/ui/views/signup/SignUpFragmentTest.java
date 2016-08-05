@@ -1,10 +1,9 @@
 package com.tonitealive.app.ui.views.signup;
 
-import android.app.Application;
-
 import com.tonitealive.app.BuildConfig;
 import com.tonitealive.app.TestApplication;
-import com.tonitealive.app.internal.di.ComponentFactorySupport;
+import com.tonitealive.app.ToniteAliveApplication;
+import com.tonitealive.app.internal.di.DefaultComponentFactory;
 import com.tonitealive.app.internal.di.components.ApplicationComponent;
 import com.tonitealive.app.internal.di.components.SignUpComponent;
 import com.tonitealive.app.internal.di.components.support.ApplicationComponentSupport;
@@ -104,10 +103,10 @@ public class SignUpFragmentTest {
         assertThat(signUpFragment.getConfirmPassword()).isEqualTo(confirmPassword);
     }
 
-    private class TestComponentFactory extends ComponentFactorySupport {
+    private class TestComponentFactory extends DefaultComponentFactory {
 
         @Override
-        public ApplicationComponent createApplicationComponent(Application application) {
+        public ApplicationComponent createApplicationComponent(ToniteAliveApplication application) {
             return new ApplicationComponentSupport();
         }
 

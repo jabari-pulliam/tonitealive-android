@@ -42,7 +42,7 @@ public class BaseActivityTest {
     private class TestApplicationModule extends ApplicationModule {
 
         TestApplicationModule(Application application) {
-            super(application);
+            super((ToniteAliveApplication) application);
         }
 
         @Override
@@ -51,12 +51,5 @@ public class BaseActivityTest {
         }
     }
 
-    private class MyTestActivity extends BaseActivity {
-
-        public Navigator getNavigator() {
-            return super.getNavigator();
-        }
-
-    }
 
 }

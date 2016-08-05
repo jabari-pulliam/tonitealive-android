@@ -18,14 +18,14 @@
             android:name="API_BASE_URL"
             android:value="http://localhost:8080"/>
 
-        <activity android:name=".ui.views.signin.SignInActivity">
+        <activity android:name=".ui.views.signin.SignInActivity"/>
+
+        <activity android:name=".ui.views.main.MainActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".ui.views.main.MainActivity"/>
         <activity android:name=".ui.views.signup.SignUpActivity"/>
         <activity android:name=".ui.views.user.UserProfileActivity"/>
 

@@ -19,11 +19,18 @@ public class DefaultSignInPresenter implements SignInPresenter {
     }
 
     @Override
+    public void onResume() {
+
+        view.hideProgressBar();
+    }
+
+    @Override
     public void onSignInButtonClicked() {
         view.showProgressBar();
         signInUseCase.execute(view.getUsername(), view.getPassword()).subscribe(result -> {
             if (result) {
                 view.showMessage("Sign In successful");
+
             }
         },  error -> {
             view.showMessage("An error occurred.");

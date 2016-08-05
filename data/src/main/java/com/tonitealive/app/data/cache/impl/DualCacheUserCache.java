@@ -17,8 +17,8 @@ public class DualCacheUserCache implements UserCache {
 
     private static final int MAX_RAM_SIZE = 1;
     private static final int MAX_DISK_SIZE = 1000;
-    private static final String KEY_CURRENT_USER = "currentUser";
-    private static final String CACHE_NAME = "userCache";
+    private static final String KEY_CURRENT_USER = "current_user";
+    private static final String CACHE_NAME = "user_cache";
 
     private final DualCache<User> cache;
 

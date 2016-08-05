@@ -10,8 +10,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.tonitealive.app.R;
-import com.tonitealive.app.ToniteAliveApplication;
-import com.tonitealive.app.internal.di.ComponentFactory;
 import com.tonitealive.app.internal.di.components.SignInComponent;
 import com.tonitealive.app.ui.presenters.signin.SignInPresenter;
 import com.tonitealive.app.ui.views.BaseFragment;
@@ -61,9 +59,7 @@ public final class SignInFragment extends BaseFragment implements SignInView {
 
     @Override
     protected void initInjector() {
-        ToniteAliveApplication application = (ToniteAliveApplication) getActivity().getApplication();
-        ComponentFactory componentFactory = application.getComponentFactory();
-        SignInComponent component = componentFactory.createSignInComponent(application.getApplicationComponent(), this);
+        SignInComponent component = getComponentFactory().createSignInComponent(getApplicationComponent(), this);
         component.inject(this);
     }
 
@@ -73,6 +69,12 @@ public final class SignInFragment extends BaseFragment implements SignInView {
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        hideProgressBar();
     }
 
     @OnClick(R.id.sign_in_button)

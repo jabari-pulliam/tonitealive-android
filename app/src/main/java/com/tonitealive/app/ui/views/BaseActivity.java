@@ -1,28 +1,32 @@
 package com.tonitealive.app.ui.views;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.tonitealive.app.ui.Navigator;
-
-import javax.inject.Inject;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import com.tonitealive.app.ToniteAliveApplication;
+import com.tonitealive.app.internal.di.ComponentFactory;
+import com.tonitealive.app.internal.di.components.ApplicationComponent;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    @Inject Navigator navigator;
+    protected ComponentFactory getComponentFactory() {
+        ToniteAliveApplication application = (ToniteAliveApplication) getApplication();
+        return application.getComponentFactory();
+    }
 
-    protected Navigator getNavigator() {
-        checkNotNull(navigator);
-        return navigator;
+    protected ApplicationComponent getApplicationComponent() {
+        ToniteAliveApplication application = (ToniteAliveApplication) getApplication();
+        return application.getApplicationComponent();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initInjector();
     }
+
+    protected abstract void initInjector();
 
 }

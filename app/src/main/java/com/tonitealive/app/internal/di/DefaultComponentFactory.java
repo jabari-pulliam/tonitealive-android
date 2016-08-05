@@ -1,8 +1,8 @@
 package com.tonitealive.app.internal.di;
 
 import android.app.Activity;
-import android.app.Application;
 
+import com.tonitealive.app.ToniteAliveApplication;
 import com.tonitealive.app.internal.di.components.ActivityComponent;
 import com.tonitealive.app.internal.di.components.ApplicationComponent;
 import com.tonitealive.app.internal.di.components.DaggerActivityComponent;
@@ -17,6 +17,7 @@ import com.tonitealive.app.internal.di.components.SignUpComponent;
 import com.tonitealive.app.internal.di.components.UserProfileComponent;
 import com.tonitealive.app.internal.di.modules.ActivityModule;
 import com.tonitealive.app.internal.di.modules.ApplicationModule;
+import com.tonitealive.app.internal.di.modules.MainModule;
 import com.tonitealive.app.internal.di.modules.SignInModule;
 import com.tonitealive.app.internal.di.modules.SignUpModule;
 import com.tonitealive.app.internal.di.modules.UserProfileModule;
@@ -24,10 +25,10 @@ import com.tonitealive.app.ui.views.signin.SignInView;
 import com.tonitealive.app.ui.views.signup.SignUpView;
 import com.tonitealive.app.ui.views.user.UserProfileView;
 
-public final class DefaultComponentFactory implements ComponentFactory {
+public class DefaultComponentFactory implements ComponentFactory {
 
     @Override
-    public ApplicationComponent createApplicationComponent(Application application) {
+    public ApplicationComponent createApplicationComponent(ToniteAliveApplication application) {
         return DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(application))
                 .build();
@@ -69,6 +70,7 @@ public final class DefaultComponentFactory implements ComponentFactory {
     public MainComponent createMainComponent(ApplicationComponent applicationComponent) {
         return DaggerMainComponent.builder()
                 .applicationComponent(applicationComponent)
+                .mainModule(new MainModule())
                 .build();
     }
 }

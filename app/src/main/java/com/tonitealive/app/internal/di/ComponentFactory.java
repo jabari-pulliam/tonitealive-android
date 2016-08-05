@@ -1,8 +1,8 @@
 package com.tonitealive.app.internal.di;
 
 import android.app.Activity;
-import android.app.Application;
 
+import com.tonitealive.app.ToniteAliveApplication;
 import com.tonitealive.app.internal.di.components.ActivityComponent;
 import com.tonitealive.app.internal.di.components.ApplicationComponent;
 import com.tonitealive.app.internal.di.components.MainComponent;
@@ -15,7 +15,7 @@ import com.tonitealive.app.ui.views.user.UserProfileView;
 
 public interface ComponentFactory {
 
-    ApplicationComponent createApplicationComponent(Application application);
+    ApplicationComponent createApplicationComponent(ToniteAliveApplication application);
 
     ActivityComponent createActivityComponent(ApplicationComponent applicationComponent, Activity activity);
 

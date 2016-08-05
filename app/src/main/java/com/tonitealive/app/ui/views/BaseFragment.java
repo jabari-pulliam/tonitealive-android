@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import com.tonitealive.app.ToniteAliveApplication;
+import com.tonitealive.app.internal.di.ComponentFactory;
+import com.tonitealive.app.internal.di.components.ApplicationComponent;
 
 public abstract class BaseFragment extends Fragment implements BaseView {
 
@@ -38,6 +40,16 @@ public abstract class BaseFragment extends Fragment implements BaseView {
 
     protected ToniteAliveApplication getApplication() {
         return (ToniteAliveApplication) getActivity().getApplication();
+    }
+
+    protected ComponentFactory getComponentFactory() {
+        ToniteAliveApplication application = getApplication();
+        return application.getComponentFactory();
+    }
+
+    protected ApplicationComponent getApplicationComponent() {
+        ToniteAliveApplication application = getApplication();
+        return application.getApplicationComponent();
     }
 
     protected abstract void initInjector();

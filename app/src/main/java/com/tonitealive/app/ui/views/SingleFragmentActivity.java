@@ -27,4 +27,9 @@ public abstract class SingleFragmentActivity extends BaseActivity {
                                     .commit();
         }
     }
+
+    @Override
+    protected void initInjector() {
+        // No op
+    }
 }

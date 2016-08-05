@@ -1,15 +1,13 @@
 package com.tonitealive.app.internal.di.modules;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 
 import com.fatboyindustrial.gsonjodatime.Converters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.tonitealive.app.ToniteAliveApplication;
 import com.tonitealive.app.data.GsonJsonSerializer;
 import com.tonitealive.app.data.JobExecutor;
 import com.tonitealive.app.data.JsonSerializer;
@@ -37,9 +35,9 @@ import dagger.Provides;
 @Module
 public class ApplicationModule {
 
-    private final Application application;
+    private final ToniteAliveApplication application;
 
-    public ApplicationModule(Application application) {
+    public ApplicationModule(ToniteAliveApplication application) {
         this.application = application;
     }
 
@@ -58,14 +56,7 @@ public class ApplicationModule {
     @Provides
     @Singleton
     public ToniteAliveApi provideToniteAliveApi(TokenStore tokenStore) {
-        try {
-            ApplicationInfo info = application.getPackageManager().getApplicationInfo(application.getPackageName(),
-                    PackageManager.GET_META_DATA);
-            String apiBaseUrl = info.metaData.getString("API_BASE_URL");
-            return new RetrofitToniteAliveApi(apiBaseUrl, tokenStore);
-        } catch (PackageManager.NameNotFoundException ex) {
-            throw new RuntimeException(ex);
-        }
+        return new RetrofitToniteAliveApi(application.getApiBaseUrl(), tokenStore);
     }
 
     @Provides
@@ -95,8 +86,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public AuthService provideAuthService(StormpathAuthService authService) {
-        return authService;
+    public AuthService provideAuthService(UserCache userCache) {
+        return new StormpathAuthService(application, userCache, application.getApiBaseUrl());
     }
 
     @Provides
