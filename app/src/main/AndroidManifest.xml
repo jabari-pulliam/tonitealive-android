@@ -9,15 +9,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--
-        <meta-data
-            android:name="API_BASE_URL"
-            android:value="http://tonitealive-server.herokuapp.com"/>
-            -->
-        <meta-data
-            android:name="API_BASE_URL"
-            android:value="http://localhost:8080"/>
-
         <activity android:name=".ui.views.signin.SignInActivity"/>
 
         <activity android:name=".ui.views.main.MainActivity">

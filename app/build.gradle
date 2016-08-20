@@ -22,10 +22,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "SERVER_URL", "http://localhost:8080/"
         }
 
         debug {
             testCoverageEnabled true
+            buildConfigField "String", "SERVER_URL", "http://localhost:8080/"
         }
     }
 
@@ -51,12 +53,8 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile (project(':data')) {
-        exclude module: 'jsr305'
-    }
-    compile (project(':domain')) {
-        exclude module: 'jsr305'
-    }
+    compile project(':data')
+    compile project(':domain')
 
     compile "com.android.support:multidex:$ver.androidMultidex"
     compile "org.jetbrains.kotlin:kotlin-stdlib:${ver.kotlin}"
@@ -88,7 +86,9 @@ dependencies {
         force = true
     }
     compile "com.github.tony19:logback-android-core:$ver.logbackAndroid"
-    compile "com.github.tony19:logback-android-classic:$ver.logbackAndroid"
+    compile ("com.github.tony19:logback-android-classic:$ver.logbackAndroid") {
+        exclude group: 'com.google.android', module: 'android'
+    }
     compile "org.slf4j:slf4j-api:$ver.slf4jApi"
     compile "com.stormpath.sdk:stormpath-sdk-android:${ver.stormpathSdkAndroid}"
 

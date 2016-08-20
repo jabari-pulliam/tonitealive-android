@@ -1,7 +1,5 @@
 package com.tonitealive.app;
 
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.support.multidex.MultiDexApplication;
 
 import com.tonitealive.app.internal.di.ComponentFactory;
@@ -10,8 +8,6 @@ import com.tonitealive.app.internal.di.components.ApplicationComponent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static com.google.common.base.Preconditions.checkState;
 
 
 public class ToniteAliveApplication extends MultiDexApplication {
@@ -38,17 +34,10 @@ public class ToniteAliveApplication extends MultiDexApplication {
         super.onCreate();
         initInjector();
 
-        try {
-            ApplicationInfo info = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
-            apiBaseUrl = info.metaData.getString("API_BASE_URL");
-        } catch (PackageManager.NameNotFoundException ex) {
-            logger.error("Failed to get API_BASE_URL metadata", ex);
-            throw new RuntimeException(ex);
-        }
+        apiBaseUrl = BuildConfig.SERVER_URL;
     }
 
     public String getApiBaseUrl() {
-        checkState(apiBaseUrl != null, "API base URL was not initialized");
         return apiBaseUrl;
     }
 

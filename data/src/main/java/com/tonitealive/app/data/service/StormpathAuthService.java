@@ -31,12 +31,10 @@ public class StormpathAuthService implements AuthService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final UserCache userCache;
-    private final String baseUrl;
 
     @Inject
     public StormpathAuthService(Context context, UserCache userCache, String baseUrl) {
         this.userCache = userCache;
-        this.baseUrl = baseUrl;
 
         StormpathConfiguration config = new StormpathConfiguration.Builder()
                 .baseUrl(baseUrl)
@@ -62,7 +60,7 @@ public class StormpathAuthService implements AuthService {
                 public void onFailure(StormpathError error) {
                     logger.error(error.developerMessage());
                     if (!sub.isUnsubscribed()) {
-                        //sub.onError();
+                        sub.onError(error.throwable());
                     }
                 }
             });
@@ -98,7 +96,7 @@ public class StormpathAuthService implements AuthService {
                 public void onFailure(StormpathError error) {
                     logger.error(error.developerMessage());
                     if (!sub.isUnsubscribed()) {
-
+                        sub.onError(error.throwable());
                     }
                 }
             });
@@ -115,33 +113,41 @@ public class StormpathAuthService implements AuthService {
                 subscriber.onNext(user.get());
                 subscriber.onCompleted();
             } else {
-                // Retrieve the user from the server
-                Stormpath.getUserProfile(new StormpathCallback<UserProfile>() {
-                    @Override
-                    public void onSuccess(UserProfile userProfile) {
-                        logger.info("Found user with username: " + userProfile.getUsername());
-                        if (!subscriber.isUnsubscribed()) {
-                            User user = User.create(userProfile.getUsername(), userProfile.getEmail());
-                            subscriber.onNext(user);
-                            subscriber.onCompleted();
-                        }
+                // Check to see if there is an auth token stored, if not then there was never a login
+                if (Stormpath.accessToken() == null) {
+                    if (subscriber.isUnsubscribed()) {
+                        subscriber.onNext(null);
+                        subscriber.onCompleted();
                     }
-
-                    @Override
-                    public void onFailure(StormpathError error) {
-                        logger.error(error.developerMessage());
-                        if (!subscriber.isUnsubscribed()) {
-                            Throwable exception = error.throwable();
-                            if (exception instanceof IllegalStateException) {
-                                // This means the user is not logged in so we will return null instead of an exception
-                                subscriber.onNext(null);
+                } else {
+                    // Retrieve the user from the server
+                    Stormpath.getUserProfile(new StormpathCallback<UserProfile>() {
+                        @Override
+                        public void onSuccess(UserProfile userProfile) {
+                            logger.info("Found user with username: " + userProfile.getUsername());
+                            if (!subscriber.isUnsubscribed()) {
+                                User user = User.create(userProfile.getUsername(), userProfile.getEmail());
+                                subscriber.onNext(user);
                                 subscriber.onCompleted();
-                            } else {
-                                subscriber.onError(new NetworkConnectionException(error.message()));
                             }
                         }
-                    }
-                });
+
+                        @Override
+                        public void onFailure(StormpathError error) {
+                            logger.error(error.developerMessage());
+                            if (!subscriber.isUnsubscribed()) {
+                                Throwable exception = error.throwable();
+                                if (exception instanceof IllegalStateException) {
+                                    // This means the user is not logged in so we will return null instead of an exception
+                                    subscriber.onNext(null);
+                                    subscriber.onCompleted();
+                                } else {
+                                    subscriber.onError(new NetworkConnectionException(error.message()));
+                                }
+                            }
+                        }
+                    });
+                }
             }
         }));
     }

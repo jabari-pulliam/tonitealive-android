@@ -55,7 +55,9 @@ dependencies {
     }
     apt "com.google.guava:guava:$ver.guava"
     compile "com.github.tony19:logback-android-core:$ver.logbackAndroid"
-    compile "com.github.tony19:logback-android-classic:$ver.logbackAndroid"
+    compile ("com.github.tony19:logback-android-classic:$ver.logbackAndroid") {
+        exclude group: 'com.google.android', module: 'android'
+    }
     compile "org.slf4j:slf4j-api:$ver.slf4jApi"
     compile "com.squareup.okhttp3:okhttp:${ver.okHttp}"
     compile "com.vincentbrison.openlibraries.android:dualcache:${ver.dualcache}"
